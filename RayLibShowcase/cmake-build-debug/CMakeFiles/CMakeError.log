@@ -1,0 +1,22 @@
+Performing C SOURCE FILE Test _GLFW_HAS_64ASLR failed with the following output:
+Change Dir: C:/Users/efarinov/Uni/RayLibShowcase/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/mingw32/bin/mingw32-make.exe -f Makefile cmTC_00fe0/fast && C:/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_00fe0.dir\build.make CMakeFiles/cmTC_00fe0.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/efarinov/Uni/RayLibShowcase/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_00fe0.dir/src.c.obj
+C:\mingw32\bin\gcc.exe -D_GLFW_HAS_64ASLR  -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -Wl,--high-entropy-va -o CMakeFiles\cmTC_00fe0.dir\src.c.obj -c C:\Users\efarinov\Uni\RayLibShowcase\cmake-build-debug\CMakeFiles\CMakeTmp\src.c
+Linking C executable cmTC_00fe0.exe
+"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_00fe0.dir\link.txt --verbose=1
+"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\cmTC_00fe0.dir/objects.a
+C:\mingw32\bin\ar.exe cr CMakeFiles\cmTC_00fe0.dir/objects.a @CMakeFiles\cmTC_00fe0.dir\objects1.rsp
+C:\mingw32\bin\gcc.exe -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -Wl,--high-entropy-va -Wl,--whole-archive CMakeFiles\cmTC_00fe0.dir/objects.a -Wl,--no-whole-archive -o cmTC_00fe0.exe -Wl,--out-implib,libcmTC_00fe0.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_00fe0.dir\linklibs.rsp
+C:/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.3.0/../../../../i686-w64-mingw32/bin/ld.exe: unrecognized option '--high-entropy-va'
+C:/mingw32/bin/../lib/gcc/i686-w64-mingw32/7.3.0/../../../../i686-w64-mingw32/bin/ld.exe: use the --help option for usage information
+collect2.exe: error: ld returned 1 exit status
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_00fe0.dir\build.make:100: cmTC_00fe0.exe] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/efarinov/Uni/RayLibShowcase/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_00fe0/fast] Error 2
+
+
+Source file was:
+int main(void) { return 0; }
