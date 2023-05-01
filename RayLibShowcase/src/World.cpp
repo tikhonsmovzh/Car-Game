@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-World::World() {
+World::World(int num): Scene(num) {
 
 }
 
@@ -16,4 +16,12 @@ void World::update() {
 
 Vector2 World::physicsToWorldCoord(float x, float y) {
     return {x, -y};
+}
+
+void World::Load() {
+
+}
+
+void World::UnLoad() {
+
 }

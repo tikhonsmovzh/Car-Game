@@ -24,7 +24,7 @@ set(BUILD_SHARED OFF CACHE BOOL "Build and install the shared library" FORCE)
 add_subdirectory(./libs/chipmunk ./libs/chipmunk)
 
 #add_library(RayLibShowcase ${SOURCES})
-add_executable(RayLibShowcase ${SOURCES})
+add_executable(RayLibShowcase ${SOURCES} src/SceneManager.cpp src/SceneManager.h src/Scene.cpp src/Scene.h src/Button.cpp src/Button.h)
 target_include_directories(RayLibShowcase PUBLIC
         libs/chipmunk/include/chipmunk
         src)

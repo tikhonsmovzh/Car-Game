@@ -1,24 +1,21 @@
 #include "World.h"
 #include <raylib.h>
+#include "SceneManager.h"
 
 int main() {
     Vector2 screen {1500, 850};
+
+    Camera2D camera {{0, 0}, {0, 0}, 0, 1};
 
 	InitWindow(screen.x, screen.y, "game");
 	SetTargetFPS(60);
     SetExitKey(KEY_TAB);
 
-	auto w = World();
+	SceneManager sceneManager(&camera, &screen, {
+        new World(0)
+    });
 
-	while (!WindowShouldClose()) {
-        BeginDrawing();
-
-        ClearBackground(WHITE);
-
-        w.update();
-
-        EndDrawing();
-    }
+	while (!WindowShouldClose() && !sceneManager.update());
 
 	CloseWindow();
 

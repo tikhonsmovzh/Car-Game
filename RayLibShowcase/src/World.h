@@ -9,14 +9,19 @@
 #include <chipmunk_types.h>
 #include <chipmunk.h>
 #include <vector>
+#include "Scene.h"
 
-class World {
+class World : public Scene {
+    Vector2 physicsToWorldCoord(float x, float y);
+
 public:
-	World();
-
-	Vector2 physicsToWorldCoord(float x, float y);
+	World(int);
 
 	void update();
+
+    void Load();
+
+    void UnLoad();
 };
 
 #endif //RAYLIBSHOWCASE_WORLD_H
