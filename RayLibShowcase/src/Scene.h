@@ -17,6 +17,8 @@ protected:
     Font TextFont;
 
     Vector2 *screen;
+
+    Camera2D *camera;
 public:
     int number;
 
@@ -28,7 +30,7 @@ public:
 
     virtual void UnLoad(){}
 
-    void Start(SceneManager *, Font, Vector2 *);
+    void Start(SceneManager *, Font, Vector2 *, Camera2D *);
 };
 
 

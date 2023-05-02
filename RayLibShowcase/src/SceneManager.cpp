@@ -43,7 +43,7 @@ SceneManager::SceneManager(Camera2D *camera2D, Vector2 *screen, std::vector<Scen
 
     for(int i = 0; i < sc.size(); i++) {
         scenes.push_back(sc.at(i));
-        sc.at(i)->Start(this, TextFont, screen);
+        sc.at(i)->Start(this, TextFont, screen, camera2D);
     }
 
     scenes.at(0)->Load();

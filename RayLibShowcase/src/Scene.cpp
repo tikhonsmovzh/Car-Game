@@ -8,8 +8,9 @@ Scene::Scene(int number) {
     this->number = number;
 }
 
-void Scene::Start(SceneManager *manager, Font font, Vector2 *screen) {
+void Scene::Start(SceneManager *manager, Font font, Vector2 *screen, Camera2D *camera) {
     sceneManager = manager;
     TextFont = font;
     this->screen = screen;
+    this->camera = camera;
 }
