@@ -7,14 +7,18 @@
 
 #include <chipmunk.hpp>
 #include <string>
-#include "World.h"
 #include <raylib.h>
+#include <cmath>
 
 class World;
 
 class GameObject {
 protected:
     Color color;
+
+    Vector2 physicsToWorldCoord(float x, float y);
+
+    Vector2 degreesToVector(double force, int alpha);
 public:
     Vector2 position;
     Vector2 scale;

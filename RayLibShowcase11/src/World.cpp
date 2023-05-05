@@ -58,6 +58,10 @@ void World::Load() {
 
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
+
+    LoadLevel({
+        new Car({screen->x / 2, screen->y / 2})
+    });
 }
 
 GameObject* World::FindName(std::string name) {
