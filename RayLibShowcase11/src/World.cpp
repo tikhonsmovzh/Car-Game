@@ -58,6 +58,11 @@ void World::Load() {
 
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
+
+    LoadLevel({
+        new PlayerCar({screen->x / 2, screen->y / 2}),
+        new Barrier({500, 500})
+    });
 }
 
 GameObject* World::FindName(std::string name) {
@@ -96,7 +101,8 @@ void World::SpawnObject(GameObject* obj) {
     level->push_back(obj);
 
     obj->Shape(mSpace);
-    obj->Start(this);
+    obj->Awake(this);
+    obj->Start();
 }
 
 void World::DeleteObject(GameObject *obj) {
@@ -117,7 +123,8 @@ void World::LoadLevel(std::vector<GameObject *> level1) {
 
     for (int i = 0; i < level1.size(); i++) {
         level1.at(i)->Shape(mSpace);
-        level1.at(i)->Start(this);
+        level1.at(i)->Awake(this);
+        level1.at(i)->Start();
     }
 }
 

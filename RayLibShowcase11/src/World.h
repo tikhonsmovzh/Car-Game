@@ -11,7 +11,8 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-class GameObject;
+#include "PlayerCar.h"
+#include "Barrier.h"
 
 class World : public Scene {
     Vector2 physicsToWorldCoord(float x, float y);
