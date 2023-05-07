@@ -10,7 +10,9 @@
 #include <vector>
 #include "Scene.h"
 #include "GameObject.h"
-#include "Car.h"
+
+#include "PlayerCar.h"
+#include "Barrier.h"
 
 class World : public Scene {
     Vector2 physicsToWorldCoord(float x, float y);

@@ -11,11 +11,6 @@
 #include <iostream>
 
 class Car : public GameObject {
-    Rectangle carRect;
-
-    const float speed = 0.14;
-
-    const int wheel = 2;
     const int wheelRotSpeed = 1;
     const int wheelDistance = 18;
 
@@ -25,20 +20,27 @@ class Car : public GameObject {
 
     const Vector2 wheelScale {15, 30};
 
-    float currentSpeed = 0;
+    int wheelAngle = 0, rotation = 0, phisRotation = 0;
 
-    void gas(float);
+    Texture2D carTexture;
+    Rectangle carSource;
+    Vector2 carOrigin;
 
-    int wheelAngle = 0, rot = 0;
+    float wheelUp, wheelDown, wheelLeft, wheelRight;
 
-    void rotation(int);
+protected:
+    void Rotation(int);
 
     void updateCar();
+
+    void gas(float);
 
 public:
     Car(Vector2);
 
-    void draw();
+    virtual void draw() = 0;
+
+    void Shape(cp::Space *);
 };
 
 
