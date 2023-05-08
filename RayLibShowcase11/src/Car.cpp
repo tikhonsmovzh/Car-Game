@@ -3,21 +3,28 @@
 //
 
 #include "Car.h"
+#include "World.h"
 
-Car::Car(Vector2 pos): GameObject(pos, {50, 100}, "Car", RED) {
-    carTexture = LoadTexture("../resources/texture/cars/car green.png");
-    carSource = {0, 0, (float)carTexture.width, (float)carTexture.height};
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis): GameObject(pos, scale, "Car", RED) {
     carOrigin = {scale.x / 2, (float)axis};
 
     wheelLeft = wheelScale.x / 2 - scale.x / 2;
     wheelRight = wheelScale.x / 2 + scale.x / 2;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
     wheelDown = wheelScale.y / 2 + wheelDistance - (scale.y - axis);
+
+    this->wheelRotSpeed = wheelRotSpeed;
+    this->overclocking = overclocking;
+    this->axis = axis;
 }
 
 void Car::gas(float speeds) {
-    rotation += wheelAngle;
-    phisRotation -= wheelAngle;
+    isGas = true;
+
+    float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
+
+    rotation += wheelRotation;
+    phisRotation -= wheelRotation;
 
     cpBodySetAngle(*myBody, (phisRotation + 180) / 180.0 * PI);
 
@@ -28,8 +35,19 @@ void Car::gas(float speeds) {
     else
         currentSpeed = speeds;
 
-    Vector2 veloc = degreesToVector(currentSpeed, rotation);
-    myBody->setVelocity(cp::Vect(veloc.x, veloc.y));
+    if(signbit(speed) != signbit(speeds))
+        speed = 0;
+
+    if(speed != currentSpeed) {
+        if (speed > currentSpeed)
+            speed -= overclocking;
+        else
+            speed += overclocking;
+    }
+
+    Vector2 velocity = degreesToVector(speed, rotation);
+
+    myBody->setVelocity(cp::Vect(velocity.x, velocity.y));
 }
 
 void Car::Rotation(int rot){
@@ -51,6 +69,9 @@ void Car::updateCar() {
 
     myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
 
+    if(!isGas)
+        speed *= 0.9;
+
     cp::Vect savePos = cpBodyGetPosition(*myBody);
 
     position = {(float)savePos.x, -(float)savePos.y};
@@ -63,7 +84,9 @@ void Car::updateCar() {
     DrawRectanglePro(wheelRect, {wheelRight, wheelDown}, rotation, wheelColor);
 
     DrawRectanglePro({position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
-    DrawTextPro(Font(), "95", position, {scale.x / 2 - 7,scale.y / 2}, rotation, 30, 3, YELLOW);
+    DrawTextPro(textFont, "95", position, {scale.x / 2 - 7,scale.y / 2}, rotation, 30, 3, YELLOW);
+
+    isGas = false;
 }
 
 void Car::Shape(cp::Space *mSpace) {

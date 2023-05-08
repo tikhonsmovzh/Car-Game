@@ -4,7 +4,7 @@
 
 #include "PlayerCar.h"
 
-PlayerCar::PlayerCar(Vector2 pos): Car(pos) {}
+PlayerCar::PlayerCar(Vector2 pos): Car(pos, {50, 100}, 1, 18, 0.3, 75) {}
 
 void PlayerCar::draw() {
     if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))

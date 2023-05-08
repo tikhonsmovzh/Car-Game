@@ -21,6 +21,10 @@ protected:
     Vector2 degreesToVector(double force, int alpha);
 
     World *world;
+
+    Font textFont;
+
+    int sign(float);
 public:
     Vector2 position;
     Vector2 scale;
@@ -34,7 +38,7 @@ public:
     virtual void Shape(cp::Space *){}
     virtual void Start(){}
 
-    void Awake(World *);
+    void Awake(World *, Font);
 
     virtual void draw(){}
     virtual void drawInterface(Vector2){}

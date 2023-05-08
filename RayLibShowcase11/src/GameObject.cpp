@@ -23,4 +23,13 @@ Vector2 GameObject::degreesToVector(double force, int alpha)
     return {(float)(force * std::sin(yC) * 180 / PI), (float)(force * std::cos(yC) * 180 / PI)};
 }
 
-void GameObject::Awake(World *w) { world = w;}
+void GameObject::Awake(World *w, Font textFont) {
+    world = w;
+    this->textFont = textFont;
+}
+
+int GameObject::sign(float val) {
+    if(val == 0) return 0;
+    if(val > 0) return 1;
+    return -1;
+}

@@ -7,7 +7,7 @@
 Barrier::Barrier(Vector2 pos): GameObject({pos.x, -pos.y}, {50, 150}, "Barrier", BROWN) {}
 
 void Barrier::Shape(cp::Space *mSpace) {
-    myBody = std::make_shared<cp::Body>(4, INFINITY);
+    myBody = std::make_shared<cp::Body>(4, 500);
 
     myShape = std::make_shared<cp::PolyShape>(myBody,
                                               std::vector<cp::Vect>{
@@ -29,6 +29,8 @@ void Barrier::draw() {
     cp::Vect saveVelocity = myBody->getVelocity();
 
     myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
+
+    cpBodySetAngle(*myBody, cpBodyGetAngle(*myBody) * 0.999);
 
     position = {(float)cpBodyGetPosition(*myBody).x, -(float)cpBodyGetPosition(*myBody).y};
 

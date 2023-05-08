@@ -49,10 +49,6 @@ void World::update() {
         level->at(i)->drawInterface(camera->target);
 }
 
-Vector2 World::physicsToWorldCoord(float x, float y) {
-    return {x, -y};
-}
-
 void World::Load() {
     camera->target = {0, 0};
 
@@ -101,7 +97,7 @@ void World::SpawnObject(GameObject* obj) {
     level->push_back(obj);
 
     obj->Shape(mSpace);
-    obj->Awake(this);
+    obj->Awake(this, TextFont);
     obj->Start();
 }
 
@@ -123,7 +119,7 @@ void World::LoadLevel(std::vector<GameObject *> level1) {
 
     for (int i = 0; i < level1.size(); i++) {
         level1.at(i)->Shape(mSpace);
-        level1.at(i)->Awake(this);
+        level1.at(i)->Awake(this, TextFont);
         level1.at(i)->Start();
     }
 }

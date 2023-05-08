@@ -8,7 +8,7 @@
 #include "Car.h"
 
 class PlayerCar: public Car {
-    const float speed = 5;
+    const float speed = 8;
 
     const int wheel = 2;
 
