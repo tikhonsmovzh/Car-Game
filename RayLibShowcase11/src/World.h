@@ -13,6 +13,7 @@
 
 #include "PlayerCar.h"
 #include "Barrier.h"
+#include "Asphalt.h"
 
 class World : public Scene {
     unsigned long long frameCount = 0;

@@ -25,6 +25,10 @@ protected:
     Font textFont;
 
     int sign(float);
+
+    Camera2D *camera;
+
+    Vector2 *screen;
 public:
     Vector2 position;
     Vector2 scale;
@@ -38,7 +42,7 @@ public:
     virtual void Shape(cp::Space *){}
     virtual void Start(){}
 
-    void Awake(World *, Font);
+    void Awake(World *, Font, Camera2D *, Vector2 *);
 
     virtual void draw(){}
     virtual void drawInterface(Vector2){}

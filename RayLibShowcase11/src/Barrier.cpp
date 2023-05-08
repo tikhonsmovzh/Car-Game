@@ -30,7 +30,7 @@ void Barrier::draw() {
 
     myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
 
-    cpBodySetAngle(*myBody, cpBodyGetAngle(*myBody) * 0.999);
+    cpBodySetAngle(*myBody, cpBodyGetAngle(*myBody) * 0.99);
 
     position = {(float)cpBodyGetPosition(*myBody).x, -(float)cpBodyGetPosition(*myBody).y};
 

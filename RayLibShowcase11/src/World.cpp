@@ -26,9 +26,9 @@ void World::update() {
                 if (level->at(j)->myShape != nullptr) {
                     auto points = cpShapesCollide(*(level->at(j)->myShape), *(level->at(i)->myShape));
 
-                    int saveSize = level->size();
-
                     if (points.count > 0) {
+                        int saveSize = level->size();
+
                         level->at(i)->Touch(level->at(j), points);
 
                         if (saveSize == level->size())
@@ -56,8 +56,14 @@ void World::Load() {
     mSpace->setGravity(cp::Vect(0, 0));
 
     LoadLevel({
-        new PlayerCar({screen->x / 2, screen->y / 2}),
-        new Barrier({500, 500})
+        new Barrier({500, 500}),
+        new Asphalt({700, 500}),
+        new Asphalt({700, 400}),
+        new Asphalt({700, 300}),
+        new Asphalt({700, 200}),
+        new Asphalt({700, 100}),
+        new Asphalt({700, 0}),
+        new PlayerCar({screen->x / 2, screen->y / 2})
     });
 }
 
@@ -97,7 +103,7 @@ void World::SpawnObject(GameObject* obj) {
     level->push_back(obj);
 
     obj->Shape(mSpace);
-    obj->Awake(this, TextFont);
+    obj->Awake(this, TextFont, camera, screen);
     obj->Start();
 }
 
@@ -105,21 +111,19 @@ void World::DeleteObject(GameObject *obj) {
     if(obj->myBody != nullptr && obj->myBody != mSpace->staticBody)
         mSpace->remove(obj->myBody);
 
-    if(obj->myShape != nullptr)
+    if(obj->myShape != nullptr && cpSpaceContainsShape(*mSpace, *(obj->myShape)))
         mSpace->remove(obj->myShape);
 
     delete obj;
 }
 
 void World::LoadLevel(std::vector<GameObject *> level1) {
-    camera->target = {0, 0};
-
     for(int i = 0; i < level1.size(); i++)
         level->push_back(level1.at(i));
 
     for (int i = 0; i < level1.size(); i++) {
         level1.at(i)->Shape(mSpace);
-        level1.at(i)->Awake(this, TextFont);
+        level1.at(i)->Awake(this, TextFont, camera, screen);
         level1.at(i)->Start();
     }
 }

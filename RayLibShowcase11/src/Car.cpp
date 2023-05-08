@@ -18,8 +18,13 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
     this->axis = axis;
 }
 
-void Car::gas(float speeds) {
+void Car::gas(float speedes) {
     isGas = true;
+
+    float speeds = speedes;
+
+    if(isAsphaltTouch)
+        speeds *= 1.6;
 
     float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
 
@@ -87,6 +92,7 @@ void Car::updateCar() {
     DrawTextPro(textFont, "95", position, {scale.x / 2 - 7,scale.y / 2}, rotation, 30, 3, YELLOW);
 
     isGas = false;
+    isAsphaltTouch = false;
 }
 
 void Car::Shape(cp::Space *mSpace) {
@@ -106,4 +112,11 @@ void Car::Shape(cp::Space *mSpace) {
 
     mSpace->add(myBody);
     mSpace->add(myShape);
+
+    myBody->setVelocity(cpvzero);
+}
+
+void Car::Touch(GameObject *object, cpContactPointSet points) {
+    if(object->name == "Asphalt")
+        isAsphaltTouch = true;
 }

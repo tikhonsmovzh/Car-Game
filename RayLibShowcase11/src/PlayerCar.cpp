@@ -19,5 +19,11 @@ void PlayerCar::draw() {
     else
         Rotation(0);
 
+    camera->target = position;
+
+    updateCar();
+}
+
+void PlayerCar::Start() {
     updateCar();
 }

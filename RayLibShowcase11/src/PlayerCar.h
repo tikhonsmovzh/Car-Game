@@ -16,6 +16,8 @@ public:
     PlayerCar(Vector2);
 
     void draw();
+
+    void Start();
 };
 
 
