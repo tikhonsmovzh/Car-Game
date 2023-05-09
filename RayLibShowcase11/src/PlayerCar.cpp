@@ -4,7 +4,8 @@
 
 #include "PlayerCar.h"
 
-PlayerCar::PlayerCar(Vector2 pos): Car(pos, {50, 100}, 1, 18, 0.3, 75) {}
+PlayerCar::PlayerCar(Vector2 pos): Car(LoadTexture("../resources/texture/cars/car2.png"), pos, {75, 150},
+                                       1, 35, 0.3, 75, 9) {}
 
 void PlayerCar::draw() {
     if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
