@@ -4,7 +4,8 @@
 
 #include "PlayerCar.h"
 
-PlayerCar::PlayerCar(Vector2 pos): Car(pos) {}
+PlayerCar::PlayerCar(Vector2 pos): Car(LoadTexture("../resources/texture/cars/car2.png"), pos, {75, 150},
+                                       1, 35, 0.3, 75, 9) {}
 
 void PlayerCar::draw() {
     if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
@@ -19,5 +20,11 @@ void PlayerCar::draw() {
     else
         Rotation(0);
 
+    camera->target = position;
+
+    updateCar();
+}
+
+void PlayerCar::Start() {
     updateCar();
 }

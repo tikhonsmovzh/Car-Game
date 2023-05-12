@@ -10,23 +10,23 @@
 #include <string>
 #include <iostream>
 
+class World;
+
 class Car : public GameObject {
-    const int wheelRotSpeed = 1;
-    const int wheelDistance = 18;
+    float overclocking, wheelAngle = 0, rotation = 0, phisRotation = 0, wheelUp, wheelDown, wheelLeft, wheelRight, speed = 0, wheelRotSpeed;
 
-    const Color wheelColor = GRAY;
+    const Color wheelColor {105, 105, 105, 255};
 
-    const int axis = 75;
+    int axis;
 
     const Vector2 wheelScale {15, 30};
 
-    int wheelAngle = 0, rotation = 0, phisRotation = 0;
+    bool isGas = false, isAsphaltTouch = false;
+
+    Vector2 carOrigin;
 
     Texture2D carTexture;
     Rectangle carSource;
-    Vector2 carOrigin;
-
-    float wheelUp, wheelDown, wheelLeft, wheelRight;
 
 protected:
     void Rotation(int);
@@ -36,11 +36,13 @@ protected:
     void gas(float);
 
 public:
-    Car(Vector2);
+    Car(Texture2D texture, Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
 
     virtual void draw() = 0;
 
     void Shape(cp::Space *);
+
+    void Touch(GameObject *, cpContactPointSet);
 };
 
 

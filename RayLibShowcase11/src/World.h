@@ -13,10 +13,9 @@
 
 #include "PlayerCar.h"
 #include "Barrier.h"
+#include "Asphalt.h"
 
 class World : public Scene {
-    Vector2 physicsToWorldCoord(float x, float y);
-
     unsigned long long frameCount = 0;
 
     void DeleteObject(GameObject*);
