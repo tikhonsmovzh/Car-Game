@@ -1,6 +1,7 @@
 #include "World.h"
 #include <raylib.h>
 #include "SceneManager.h"
+#include "SceneRoad.h"
 
 int main() {
     Vector2 screen {1500, 850};
@@ -12,7 +13,8 @@ int main() {
     SetExitKey(KEY_TAB);
 
 	SceneManager sceneManager(&camera, &screen, {
-        new World(0)
+        new SceneRoad(0),
+        new World(1)
     });
 
 	while (!WindowShouldClose() && !sceneManager.update());
