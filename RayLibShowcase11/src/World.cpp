@@ -15,6 +15,8 @@ World::World(int num): Scene(num) {
 }
 
 void World::update() {
+    sceneRoad.update();
+
     if(level->size() == 0)
         return;
 
@@ -63,8 +65,10 @@ void World::Load() {
         new Asphalt({700, 200}),
         new Asphalt({700, 100}),
         new Asphalt({700, 0}),
-        new PlayerCar({screen->x / 2, screen->y / 2})
+        new PlayerCar({13000, 14000})
     });
+
+    sceneRoad.Load();
 }
 
 GameObject* World::FindName(std::string name) {
@@ -135,6 +139,8 @@ void World::UnLoad() {
         DeleteObject(level->at(0));
         level->erase(level->begin());
     }
+
+    sceneRoad.UnLoad();
 
     delete mSpace;
 }

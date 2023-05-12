@@ -14,6 +14,7 @@
 #include "PlayerCar.h"
 #include "Barrier.h"
 #include "Asphalt.h"
+#include "SceneRoad.h"
 
 class World : public Scene {
     unsigned long long frameCount = 0;
@@ -25,6 +26,8 @@ class World : public Scene {
     std::vector<GameObject*> *level;
 
     cp::Space *mSpace;
+
+    SceneRoad sceneRoad;
 
 public:
     World(int);

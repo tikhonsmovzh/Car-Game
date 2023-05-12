@@ -5,10 +5,11 @@
 #ifndef RAYLIBSHOWCASE_ASPHALT_H
 #define RAYLIBSHOWCASE_ASPHALT_H
 
+#include "WorldObject.h"
 #include "GameObject.h"
 #include <chipmunk.hpp>
 
-class Asphalt: public GameObject {
+class Asphalt: public GameObject, public WorldObject {
 public:
     Asphalt(Vector2);
 

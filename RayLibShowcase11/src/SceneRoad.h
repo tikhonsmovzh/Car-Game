@@ -5,20 +5,23 @@
 #ifndef RAYLIBSHOWCASE_SCENEROAD_H
 #define RAYLIBSHOWCASE_SCENEROAD_H
 
-#include "Scene.h"
 #include <iostream>
+#include <raylib.h>
+#include <vector>
+#include "WorldObject.h"
+#include "Asphalt.h"
 
-class SceneRoad: public Scene{
+class SceneRoad{
+    const float step = 300;
 public:
-    SceneRoad(int);
     void update();
     void Load();
     void UnLoad();
-    int len, maxlen = 999999,minLen = 15, side, oldSide, side2, countSide = 0, firstSide = 0;
+    int len, maxlen = 999999,minLen = 100, side, oldSide, side2, countSide = 0, firstSide = 0;
     bool boolFirst = false, boolEnd = false;
-    std::vector<Vector2> road;
-    bool** boolMatrix;
-    void updateMatrix(bool** matrix){}
+    std::vector<WorldObject*> road;
+    WorldObject*** boolMatrix;
+    void updateMatrix(WorldObject*** matrix){}
     const int scale =80;
     Vector2 NowPos ={(float)scale*5, (float)scale*5}, Start ={(float)scale*5, (float)scale*5}, sideAndCount = {0,0};
     void reload();
@@ -26,7 +29,8 @@ public:
     void draw();
     void full_generate();
 
-    Vector2 GetRand(Vector2 NowPos, bool** boolMatrix, int countSide);
+    Vector2 GetRand(Vector2 NowPos, WorldObject*** boolMatrix, int countSide);
+
 };
 
 

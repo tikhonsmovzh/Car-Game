@@ -4,13 +4,7 @@
 
 #include "SceneRoad.h"
 
-SceneRoad::SceneRoad(int num) : Scene(num) {}
-
 void SceneRoad::update() {
-    //for(int i;
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-        full_generate();
-    }
     draw();
 }
 
@@ -22,7 +16,7 @@ void SceneRoad::UnLoad() {
 
 }
 
-Vector2 SceneRoad::GetRand(Vector2 NowPos, bool** boolMatrix, int countSide) {
+Vector2 SceneRoad::GetRand(Vector2 NowPos, WorldObject*** worldMatrix, int countSide) {
     side2 = GetRandomValue(1, 4);
     if(countSide > 20){
         reload();
@@ -37,22 +31,22 @@ Vector2 SceneRoad::GetRand(Vector2 NowPos, bool** boolMatrix, int countSide) {
         return sideAndCount;
     }
     //std::cout << side << ' ' << int((NowPos.y-10)/10) << ' ' << int(NowPos.x+10)/10 << '\n';
-    if(side2 == 1 && (boolMatrix[int((NowPos.y-10)/10)][int(NowPos.x+10)/10] || boolMatrix[int((NowPos.y-10)/10)][int(NowPos.x-10)/10] || boolMatrix[int((NowPos.y-20)/10)][int(NowPos.x)/10])){
+    if(side2 == 1 && (worldMatrix[int((NowPos.y-10)/10)][int(NowPos.x+10)/10] != nullptr || worldMatrix[int((NowPos.y-10)/10)][int(NowPos.x-10)/10] != nullptr|| worldMatrix[int((NowPos.y-20)/10)][int(NowPos.x)/10] != nullptr)){
         countSide++;
-        sideAndCount = GetRand(NowPos, boolMatrix, countSide);
+        sideAndCount = GetRand(NowPos, worldMatrix, countSide);
         countSide = sideAndCount.y;
     }
-    else if(side2 == 2 && (boolMatrix[int((NowPos.y-10)/10)][int(NowPos.x+10)/10] || boolMatrix[int((NowPos.y+10)/10)][int(NowPos.x+10)/10] || boolMatrix[int((NowPos.y)/10)][int(NowPos.x+20)/10])){
+    else if(side2 == 2 && (worldMatrix[int((NowPos.y-10)/10)][int(NowPos.x+10)/10] != nullptr || worldMatrix[int((NowPos.y+10)/10)][int(NowPos.x+10)/10] != nullptr || worldMatrix[int((NowPos.y)/10)][int(NowPos.x+20)/10] != nullptr)){
         countSide++;
-        sideAndCount = GetRand(NowPos, boolMatrix, countSide);
+        sideAndCount = GetRand(NowPos, worldMatrix, countSide);
     }
-    else if(side2 == 3 && (boolMatrix[int((NowPos.y+10)/10)][int(NowPos.x+10)/10] || boolMatrix[int((NowPos.y+10)/10)][int(NowPos.x-10)/10] || boolMatrix[int((NowPos.y+20)/10)][int(NowPos.x)/10])){
+    else if(side2 == 3 && (worldMatrix[int((NowPos.y+10)/10)][int(NowPos.x+10)/10] != nullptr || worldMatrix[int((NowPos.y+10)/10)][int(NowPos.x-10)/10] != nullptr || worldMatrix[int((NowPos.y+20)/10)][int(NowPos.x)/10] != nullptr)){
         countSide++;
-        sideAndCount = GetRand(NowPos, boolMatrix, countSide);
+        sideAndCount = GetRand(NowPos, worldMatrix, countSide);
     }
-    else if(side2 == 4 && (boolMatrix[int((NowPos.y-10)/10)][int(NowPos.x-10)/10] || boolMatrix[int((NowPos.y+10)/10)][int(NowPos.x-10)/10] || boolMatrix[int((NowPos.y)/10)][int(NowPos.x-20)/10])){
+    else if(side2 == 4 && (worldMatrix[int((NowPos.y-10)/10)][int(NowPos.x-10)/10] != nullptr || worldMatrix[int((NowPos.y+10)/10)][int(NowPos.x-10)/10] != nullptr || worldMatrix[int((NowPos.y)/10)][int(NowPos.x-20)/10] != nullptr)){
         countSide++;
-        sideAndCount = GetRand(NowPos, boolMatrix, countSide);
+        sideAndCount = GetRand(NowPos, worldMatrix, countSide);
     }
     else {
         countSide = 0;
@@ -69,25 +63,25 @@ void SceneRoad::reload() {
     {
         road.pop_back();
     }
-    boolMatrix = new bool*[85];
+    boolMatrix = new WorldObject**[85];
     for (int i = 0; i < 85; i++) {
-        boolMatrix[i] = new bool[150];
+        boolMatrix[i] = new WorldObject*[150];
     }
     for (int i = 0; i < 85; ++i) {
         for (int j = 0; j < 150; ++j) {
-            boolMatrix[i][j] = false;
+            boolMatrix[i][j] = nullptr;
         }
     }
-    boolMatrix[scale/2][scale/2] = true;
+    boolMatrix[scale/2][scale/2] = new Asphalt({(scale/2)*step, (scale/2)*step});
     for(int i = 0;i < scale; i++){
-        boolMatrix[0][i] = true;
-        boolMatrix[scale-1][i] = true;
+        boolMatrix[0][i] = new Asphalt({(0)*step, (i)*step});
+        boolMatrix[scale-1][i] = new Asphalt({(scale-1)*step, (i)*step});
     }
     for(int i = 0;i < scale; i++){
-        boolMatrix[i][0] = true;
-        boolMatrix[i][scale-1] = true;
+        boolMatrix[i][0] = new Asphalt({(i)*step, (0)*step});;
+        boolMatrix[i][scale-1] = new Asphalt({(i)*step, (scale-1)*step});
     }
-    road.push_back(Start);
+    //road.push_back(Start);
     NowPos = Start;
 }
 
@@ -99,8 +93,8 @@ void SceneRoad::generate() {
     if(side == 2 && oldSide != 4)   NowPos.x = NowPos.x + 10;
     if(side == 3 && oldSide != 1)   NowPos.y = NowPos.y + 10;
     if(side == 4 && oldSide != 2)   NowPos.x = NowPos.x - 10;
-    road.push_back(NowPos);
-    boolMatrix[int(NowPos.y/10)][int(NowPos.x/10)] = true;
+    //road.push_back(NowPos);
+    boolMatrix[int(NowPos.y/10)][int(NowPos.x/10)] = new Asphalt({(int(NowPos.y/10))*step, ((int(NowPos.x/10)))*step});
 //        for(int i = 0;i < road.size(); i++){
 //            DrawRectangle(road[i].x, road[i].y, 10, 10, BLACK);
 //        }
@@ -116,8 +110,9 @@ void SceneRoad::draw() {
 //    }
     for (int i = 0; i < 85; ++i) {
         for (int j = 0; j < 150; ++j) {
-            if(boolMatrix[i][j]){
-                DrawRectangle(i*10,j*10,10,10,BLACK);
+            if(boolMatrix[i][j] != nullptr){
+                //DrawRectangle(i*10,j*10,10,10,BLACK);
+                boolMatrix[i][j]->draw();
             }
         }
     }
@@ -138,10 +133,10 @@ void SceneRoad::full_generate() {
                 boolEnd = true;
                 std::cout << firstSide << " end" << "\n";
                 if(Start.x == NowPos.x){
-                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = true;
+                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = new Asphalt({((int)(Start.y+NowPos.y)/20)*step, ((int)Start.x/10)*step});
                 }
                 else{
-                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = true;
+                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = new Asphalt({((int)Start.y/10)*step, ((int)(Start.x+NowPos.x)/20)*step});
                 }
             }
             else if(firstSide == 2 && ((NowPos.x == Start.x && NowPos.y == Start.y + 20) || (NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y - 20))&&minLen < len && !boolEnd){
@@ -149,10 +144,10 @@ void SceneRoad::full_generate() {
                 boolEnd = true;
                 std::cout << firstSide << " end" << "\n";
                 if(Start.x == NowPos.x){
-                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = true;
+                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = new Asphalt({((int)(Start.y+NowPos.y)/20)*step, ((int)Start.x/10)*step});
                 }
                 else{
-                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = true;
+                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = new Asphalt({((int)Start.y/10)*step, ((int)(Start.x+NowPos.x)/20)*step});
                 }
             }
             else if(firstSide == 3 && ((NowPos.x == Start.x - 20 && NowPos.y == Start.y) || (NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y + 20))&&minLen < len && !boolEnd){
@@ -160,10 +155,10 @@ void SceneRoad::full_generate() {
                 boolEnd = true;
                 std::cout << firstSide << " end" << "\n";
                 if(Start.x == NowPos.x){
-                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = true;
+                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = new Asphalt({((int)(Start.y+NowPos.y)/20)*step, ((int)Start.x/10)*step});
                 }
                 else{
-                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = true;
+                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = new Asphalt({((int)Start.y/10)*step, ((int)(Start.x+NowPos.x)/20)*step});
                 }
             }
             else if(firstSide == 4 && ((NowPos.x == Start.x && NowPos.y == Start.y + 20) || (NowPos.x == Start.x - 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y - 20))&&minLen < len && !boolEnd){
@@ -171,10 +166,10 @@ void SceneRoad::full_generate() {
                 boolEnd = true;
                 std::cout << firstSide << " end" << "\n";
                 if(Start.x == NowPos.x){
-                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = true;
+                    boolMatrix[(int)(Start.y+NowPos.y)/20][(int)Start.x/10] = new Asphalt({((int)(Start.y+NowPos.y)/20)*step, ((int)Start.x/10)*step});
                 }
                 else{
-                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = true;
+                    boolMatrix[(int)Start.y/10][(int)(Start.x+NowPos.x)/20] = new Asphalt({((int)Start.y/10)*step, ((int)(Start.x+NowPos.x)/20)*step});
                 }
             }
             else{
