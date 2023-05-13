@@ -28,6 +28,8 @@ public:
     SceneManager(Camera2D *, Vector2 *, std::vector<Scene*>);
 
     void StopGame();
+
+    ~SceneManager();
 };
 
 

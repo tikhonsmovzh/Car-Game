@@ -4,7 +4,7 @@
 
 #include "Asphalt.h"
 
-Asphalt::Asphalt(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Asphalt", GRAY), WorldObject(pos) {}
+Asphalt::Asphalt(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Asphalt", GRAY) {}
 
 void Asphalt::Shape(cp::Space *mSpace) {
     myBody = std::make_shared<cp::Body>(0.01, 0.01);

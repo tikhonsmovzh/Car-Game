@@ -15,7 +15,7 @@ World::World(int num): Scene(num) {
 }
 
 void World::update() {
-    sceneRoad.update();
+    worldGenerator.update();
 
     if(level->size() == 0)
         return;
@@ -49,6 +49,9 @@ void World::update() {
 
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
+
+    if(IsKeyPressed(KEY_X))
+        sceneManager->LoadScene(number);
 }
 
 void World::Load() {
@@ -57,18 +60,9 @@ void World::Load() {
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
 
-    LoadLevel({
-        new Barrier({500, 500}),
-        new Asphalt({700, 500}),
-        new Asphalt({700, 400}),
-        new Asphalt({700, 300}),
-        new Asphalt({700, 200}),
-        new Asphalt({700, 100}),
-        new Asphalt({700, 0}),
-        new PlayerCar({13000, 14000})
-    });
+    LoadLevel(worldGenerator.full_generate());
 
-    sceneRoad.Load();
+    SpawnObject(new PlayerCar({12850, 12850}));
 }
 
 GameObject* World::FindName(std::string name) {
@@ -112,11 +106,13 @@ void World::SpawnObject(GameObject* obj) {
 }
 
 void World::DeleteObject(GameObject *obj) {
-    if(obj->myBody != nullptr && obj->myBody != mSpace->staticBody)
+    if(obj->myBody != nullptr && obj->myBody != mSpace->staticBody && cpSpaceContainsBody(*mSpace, *(obj->myBody)))
         mSpace->remove(obj->myBody);
 
     if(obj->myShape != nullptr && cpSpaceContainsShape(*mSpace, *(obj->myShape)))
         mSpace->remove(obj->myShape);
+
+    obj->destroy();
 
     delete obj;
 }
@@ -139,8 +135,6 @@ void World::UnLoad() {
         DeleteObject(level->at(0));
         level->erase(level->begin());
     }
-
-    sceneRoad.UnLoad();
 
     delete mSpace;
 }

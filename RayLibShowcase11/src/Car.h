@@ -43,6 +43,8 @@ public:
     void Shape(cp::Space *);
 
     void Touch(GameObject *, cpContactPointSet);
+
+    void destroy();
 };
 
 

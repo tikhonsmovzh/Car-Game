@@ -22,7 +22,7 @@ protected:
 
     World *world;
 
-    Font textFont;
+    Font *textFont;
 
     int sign(float);
 
@@ -42,10 +42,12 @@ public:
     virtual void Shape(cp::Space *){}
     virtual void Start(){}
 
-    void Awake(World *, Font, Camera2D *, Vector2 *);
+    void Awake(World *, Font *, Camera2D *, Vector2 *);
 
     virtual void draw(){}
     virtual void drawInterface(Vector2){}
+
+    virtual void destroy(){}
 
     virtual void Touch(GameObject *, cpContactPointSet){}
 };

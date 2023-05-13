@@ -14,7 +14,7 @@
 #include "PlayerCar.h"
 #include "Barrier.h"
 #include "Asphalt.h"
-#include "SceneRoad.h"
+#include "WorldGenerator.h"
 
 class World : public Scene {
     unsigned long long frameCount = 0;
@@ -27,7 +27,7 @@ class World : public Scene {
 
     cp::Space *mSpace;
 
-    SceneRoad sceneRoad;
+    WorldGenerator worldGenerator;
 
 public:
     World(int);

@@ -10,9 +10,8 @@
 
 class WorldObject {
 public:
-    Vector2 posit;
-    WorldObject(Vector2);
     virtual void draw(){}
+    virtual bool IsPhysical(){return false;}
 };
 
 

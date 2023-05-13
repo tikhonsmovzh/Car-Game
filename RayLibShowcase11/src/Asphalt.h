@@ -16,6 +16,8 @@ public:
     void Shape(cp::Space*);
 
     void draw();
+
+    bool IsPhysical(){return true;}
 };
 
 

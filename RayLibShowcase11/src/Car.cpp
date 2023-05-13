@@ -121,3 +121,7 @@ void Car::Touch(GameObject *object, cpContactPointSet points) {
     if(object->name == "Asphalt")
         isAsphaltTouch = true;
 }
+
+void Car::destroy() {
+    UnloadTexture(carTexture);
+}
