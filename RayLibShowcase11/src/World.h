@@ -29,6 +29,8 @@ class World : public Scene {
 
     WorldGenerator worldGenerator;
 
+    const float distanceTouch = 250;
+
 public:
     World(int);
 

@@ -12,7 +12,7 @@ int main() {
     SetExitKey(KEY_TAB);
 
 	SceneManager sceneManager(&camera, &screen, {
-        new World(1)
+        new World(0)
     });
 
 	while (!WindowShouldClose() && !sceneManager.update());

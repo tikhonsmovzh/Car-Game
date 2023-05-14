@@ -5,19 +5,16 @@
 #ifndef RAYLIBSHOWCASE_ASPHALT_H
 #define RAYLIBSHOWCASE_ASPHALT_H
 
-#include "WorldObject.h"
 #include "GameObject.h"
 #include <chipmunk.hpp>
 
-class Asphalt: public GameObject, public WorldObject {
+class Asphalt: public GameObject {
 public:
     Asphalt(Vector2);
 
     void Shape(cp::Space*);
 
     void draw();
-
-    bool IsPhysical(){return true;}
 };
 
 

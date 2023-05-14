@@ -4,8 +4,12 @@
 
 #include "PlayerCar.h"
 
-PlayerCar::PlayerCar(Vector2 pos): Car(LoadTexture("../resources/texture/cars/car2.png"), pos, {75, 150},
-                                       1, 35, 0.3, 75, 9) {}
+PlayerCar::PlayerCar(Vector2 pos): Car(pos, {75, 150},
+                                       1, 35, 0.3, 75, 9) {
+    static Texture2D texture2D = LoadTexture("../resources/texture/cars/car2.png");
+
+    settings(&texture2D);
+}
 
 void PlayerCar::draw() {
     if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))

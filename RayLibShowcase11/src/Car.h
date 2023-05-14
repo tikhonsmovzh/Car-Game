@@ -25,7 +25,7 @@ class Car : public GameObject {
 
     Vector2 carOrigin;
 
-    Texture2D carTexture;
+    Texture2D *carTexture;
     Rectangle carSource;
 
 protected:
@@ -35,16 +35,16 @@ protected:
 
     void gas(float);
 
+    void settings(Texture2D *);
+
 public:
-    Car(Texture2D texture, Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
+    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
 
     virtual void draw() = 0;
 
     void Shape(cp::Space *);
 
     void Touch(GameObject *, cpContactPointSet);
-
-    void destroy();
 };
 
 

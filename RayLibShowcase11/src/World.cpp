@@ -15,8 +15,6 @@ World::World(int num): Scene(num) {
 }
 
 void World::update() {
-    worldGenerator.update();
-
     if(level->size() == 0)
         return;
 
@@ -25,7 +23,8 @@ void World::update() {
     for (int i = 0; i < level->size() - 1; i++) {
         if (level->at(i)->myShape != nullptr) {
             for (int j = i + 1; j < level->size(); j++) {
-                if (level->at(j)->myShape != nullptr) {
+                if (level->at(j)->myShape != nullptr && level->at(i)->name != level->at(j)->name &&
+                std::abs(level->at(i)->position.x - level->at(j)->position.x) + std::abs(level->at(i)->position.y - level->at(j)->position.y) < screen->x) {
                     auto points = cpShapesCollide(*(level->at(j)->myShape), *(level->at(i)->myShape));
 
                     if (points.count > 0) {

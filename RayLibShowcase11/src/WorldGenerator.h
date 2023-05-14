@@ -8,7 +8,6 @@
 #include <iostream>
 #include <raylib.h>
 #include <vector>
-#include "WorldObject.h"
 #include "Asphalt.h"
 #include "GameObject.h"
 
@@ -24,21 +23,16 @@ class WorldGenerator{
 
     bool boolFirst = false, boolEnd = false;
 
-    std::vector<GameObject*> road;
-
-    WorldObject*** Matrix;
+    GameObject*** Matrix;
 
     Vector2 NowPos ={85*5, 85*5}, Start ={85*5, 85*5}, sideAndCount = {0,0};
 
-    Vector2 GetRand(Vector2, WorldObject***, int);
+    Vector2 GetRand(Vector2, GameObject***, int);
     void reload();
     void generate();
-    void AddMatrix();
 
 public:
-    void update();
     std::vector<GameObject*> full_generate();
-    void UnLoad();
     ~WorldGenerator();
 };
 

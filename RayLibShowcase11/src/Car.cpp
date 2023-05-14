@@ -5,7 +5,7 @@
 #include "Car.h"
 #include "World.h"
 
-Car::Car(Texture2D texture, Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening): GameObject(pos, scale, "Car", WHITE) {
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening): GameObject(pos, scale, "Car", WHITE) {
     wheelLeft = wheelScale.x / 2 - scale.x / 2 + deepening;
     wheelRight = wheelScale.x / 2 + scale.x / 2 - deepening;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
@@ -15,9 +15,13 @@ Car::Car(Texture2D texture, Vector2 pos, Vector2 scale, float wheelRotSpeed, int
     this->overclocking = overclocking;
     this->axis = axis;
 
-    carTexture = texture;
     carOrigin = {scale.x / 2, (float)axis};
-    carSource = {0,0, (float)carTexture.width, (float)carTexture.height};
+}
+
+void Car::settings(Texture2D *texture) {
+    carTexture = texture;
+
+    carSource = {0,0, (float)carTexture->width, (float)carTexture->height};
 }
 
 void Car::gas(float speedes) {
@@ -90,7 +94,7 @@ void Car::updateCar() {
     DrawRectanglePro(wheelRect, {wheelLeft, wheelDown}, rotation, wheelColor);
     DrawRectanglePro(wheelRect, {wheelRight, wheelDown}, rotation, wheelColor);
 
-    DrawTexturePro(carTexture, carSource, {position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
+    DrawTexturePro(*carTexture, carSource, {position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
 
     isGas = false;
     isAsphaltTouch = false;
@@ -120,8 +124,4 @@ void Car::Shape(cp::Space *mSpace) {
 void Car::Touch(GameObject *object, cpContactPointSet points) {
     if(object->name == "Asphalt")
         isAsphaltTouch = true;
-}
-
-void Car::destroy() {
-    UnloadTexture(carTexture);
 }
