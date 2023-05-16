@@ -10,6 +10,7 @@
 #include <vector>
 #include "Asphalt.h"
 #include "GameObject.h"
+#include "Barrier.h"
 
 class WorldGenerator{
     const float step = 300;
@@ -18,7 +19,6 @@ class WorldGenerator{
     const int  minLen = 100;
 
     const Vector2 scale = {85, 150};
-
     int len, side, oldSide, side2, countSide = 0, firstSide = 0;
 
     bool boolFirst = false, boolEnd = false;

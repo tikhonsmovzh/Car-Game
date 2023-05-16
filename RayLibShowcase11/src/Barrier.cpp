@@ -3,37 +3,35 @@
 //
 
 #include "Barrier.h"
+#include "World.h"
 
-Barrier::Barrier(Vector2 pos): GameObject({pos.x, -pos.y}, {50, 150}, "Barrier", BROWN) {}
+Barrier::Barrier(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Barrier", BROWN) {}
 
 void Barrier::Shape(cp::Space *mSpace) {
-    myBody = std::make_shared<cp::Body>(4, 500);
+    myBody = mSpace->staticBody;
 
     myShape = std::make_shared<cp::PolyShape>(myBody,
                                               std::vector<cp::Vect>{
-                                                      cp::Vect(-scale.x / 2, -scale.y / 2),
-                                                      cp::Vect(scale.x / 2, -scale.y / 2),
-                                                      cp::Vect(scale.x / 2, scale.y / 2),
-                                                      cp::Vect(-scale.x / 2, scale.y / 2),
+                                                      cp::Vect(position.x, -position.y - scale.y),
+                                                      cp::Vect(position.x + scale.x, -position.y - scale.y),
+                                                      cp::Vect(position.x + scale.x, -position.y),
+                                                      cp::Vect(position.x, -position.y),
                                               });
 
-    myShape->setFriction(1);
-
-    myBody->setPosition(cp::Vect(position.x, position.y));
-
-    mSpace->add(myBody);
+//    myShape->setFriction(1);
+//
+//    myBody->setPosition(cp::Vect(position.x, position.y));
+//
+//    mSpace->add(myBody);
     mSpace->add(myShape);
 }
 
 void Barrier::draw() {
-    cp::Vect saveVelocity = myBody->getVelocity();
+    DrawRectangleV(position, scale, color);
+}
 
-    myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
-
-    cpBodySetAngle(*myBody, cpBodyGetAngle(*myBody) * 0.99);
-
-    position = {(float)cpBodyGetPosition(*myBody).x, -(float)cpBodyGetPosition(*myBody).y};
-
-    DrawRectanglePro({position.x, position.y, (float)scale.x, (float)scale.y},
-                     {(float)scale.x / 2, (float)scale.y / 2}, -cpBodyGetAngle(*myBody) / 2 / PI * 360, color);
+void Barrier::Touch(GameObject *object, cpContactPointSet points){
+    if(object->name == "Car"){
+        world->Destroy(object);
+    }
 }

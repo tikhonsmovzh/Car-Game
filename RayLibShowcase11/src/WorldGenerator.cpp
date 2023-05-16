@@ -91,13 +91,13 @@ void WorldGenerator::reload() {
     Matrix[(int)scale.x/2][(int)scale.x/2] = new Asphalt({scale.x/2*step, scale.x/2*step});
 
     for(int i = 0;i < scale.x; i++){
-        Matrix[0][i] = new Asphalt({0, step * i});
-        Matrix[(int)scale.x-1][i] = new Asphalt({(scale.x-1)*step, i*step});
+        Matrix[0][i] = new Barrier({0, step * i});
+        Matrix[(int)scale.x-1][i] = new Barrier({(scale.x-1)*step, i*step});
     }
 
     for(int i = 0;i < scale.x; i++){
-        Matrix[i][0] = new Asphalt({step * i, 0});
-        Matrix[i][(int)scale.x-1] = new Asphalt({step * i, step * (scale.x-1)});
+        Matrix[i][0] = new Barrier({step * i, 0});
+        Matrix[i][(int)scale.x-1] = new Barrier({step * i, step * (scale.x-1)});
     }
 
     NowPos = Start;
@@ -147,6 +147,8 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
                 generate();
         }
     }
+
+    for(int i = 0; i < )
 
     std::vector<GameObject*> world;
 

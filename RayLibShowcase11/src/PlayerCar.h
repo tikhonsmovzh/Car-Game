@@ -10,7 +10,7 @@
 class PlayerCar: public Car {
     const float speed = 8;
 
-    const int wheel = 2;
+    const int wheel = 3;
 
 public:
     PlayerCar(Vector2);
