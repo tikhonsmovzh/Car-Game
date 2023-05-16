@@ -24,6 +24,17 @@ void Car::settings(Texture2D *texture) {
     carSource = {0,0, (float)carTexture->width, (float)carTexture->height};
 }
 
+void Car::draw() {
+    Rectangle wheelRect = {position.x, position.y, wheelScale.x, wheelScale.y};
+
+    DrawRectanglePro(wheelRect, {wheelLeft, wheelUp}, rotation + wheelAngle, wheelColor);
+    DrawRectanglePro(wheelRect, {wheelRight, wheelUp}, rotation + wheelAngle, wheelColor);
+    DrawRectanglePro(wheelRect, {wheelLeft, wheelDown}, rotation, wheelColor);
+    DrawRectanglePro(wheelRect, {wheelRight, wheelDown}, rotation, wheelColor);
+
+    DrawTexturePro(*carTexture, carSource, {position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
+}
+
 void Car::gas(float speedes) {
     isGas = true;
 
@@ -76,25 +87,16 @@ void Car::Rotation(int rot){
 }
 
 void Car::updateCar() {
-    cp::Vect saveVelocity = myBody->getVelocity();
-
-    myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
-
-    if(!isGas)
+    if(!isGas) {
         speed *= 0.9;
+        cp::Vect saveVelocity = myBody->getVelocity();
+
+        myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
+    }
 
     cp::Vect savePos = cpBodyGetPosition(*myBody);
 
     position = {(float)savePos.x, -(float)savePos.y};
-
-    Rectangle wheelRect = {position.x, position.y, wheelScale.x, wheelScale.y};
-
-    DrawRectanglePro(wheelRect, {wheelLeft, wheelUp}, rotation + wheelAngle, wheelColor);
-    DrawRectanglePro(wheelRect, {wheelRight, wheelUp}, rotation + wheelAngle, wheelColor);
-    DrawRectanglePro(wheelRect, {wheelLeft, wheelDown}, rotation, wheelColor);
-    DrawRectanglePro(wheelRect, {wheelRight, wheelDown}, rotation, wheelColor);
-
-    DrawTexturePro(*carTexture, carSource, {position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
 
     isGas = false;
     isAsphaltTouch = false;

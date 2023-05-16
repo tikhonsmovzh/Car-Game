@@ -11,7 +11,9 @@ PlayerCar::PlayerCar(Vector2 pos): Car(pos, {75, 150},
     settings(&texture2D);
 }
 
-void PlayerCar::draw() {
+void PlayerCar::update() {
+    camera->target = position;
+
     if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
         gas(speed);
     else if(IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
@@ -23,8 +25,6 @@ void PlayerCar::draw() {
         Rotation(wheel);
     else
         Rotation(0);
-
-    camera->target = position;
 
     updateCar();
 }

@@ -44,6 +44,7 @@ public:
 
     void Awake(World *, Font *, Camera2D *, Vector2 *);
 
+    virtual void update(){}
     virtual void draw(){}
     virtual void drawInterface(Vector2){}
 

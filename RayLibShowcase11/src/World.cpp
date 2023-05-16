@@ -12,44 +12,53 @@
 
 World::World(int num): Scene(num) {
     level = new std::vector<GameObject*>;
-}
 
-void World::update() {
-    if(level->size() == 0)
-        return;
+    PhisThread = new std::thread([&](){
+        while(!IsKeyDown(KEY_TAB)) {
+            if(isLoad) {
+                for (int i = 0; i < level->size() - 1; i++) {
+                    if (level->at(i)->myShape != nullptr) {
+                        for (int j = i + 1; j < level->size(); j++) {
+                            if (level->at(j)->myShape != nullptr &&
+                                std::abs(level->at(i)->position.x - level->at(j)->position.x) +
+                                std::abs(level->at(i)->position.y - level->at(j)->position.y) <
+                                distanceTouch) {
+                                auto points = cpShapesCollide(*(level->at(j)->myShape),
+                                                          *(level->at(i)->myShape));
 
-    mSpace->step(1.0 / 60);
+                                if (points.count > 0) {
+                                    int saveSize = level->size();
 
-    for (int i = 0; i < level->size() - 1; i++) {
-        if (level->at(i)->myShape != nullptr) {
-            for (int j = i + 1; j < level->size(); j++) {
-                if (level->at(j)->myShape != nullptr && level->at(i)->name != level->at(j)->name &&
-                std::abs(level->at(i)->position.x - level->at(j)->position.x) + std::abs(level->at(i)->position.y - level->at(j)->position.y) < screen->x) {
-                    auto points = cpShapesCollide(*(level->at(j)->myShape), *(level->at(i)->myShape));
+                                    level->at(i)->Touch(level->at(j), points);
 
-                    if (points.count > 0) {
-                        int saveSize = level->size();
-
-                        level->at(i)->Touch(level->at(j), points);
-
-                        if (saveSize == level->size())
-                            level->at(j)->Touch(level->at(i), points);
+                                    if (saveSize == level->size())
+                                        level->at(j)->Touch(level->at(i), points);
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-    }
+    });
+}
 
+void World::update() {
     frameCount++;
     frameCount %= UINT64_MAX;
 
+    mSpace->step(1.0 / 60.0);
+
     for (int i = 0; i < level->size(); i++)
+        level->at(i)->update();
+
+    for(int i = 0; i < level->size(); i++)
         level->at(i)->draw();
 
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
 
-    if(IsKeyPressed(KEY_X))
+    if(IsKeyPressed(KEY_R))
         sceneManager->LoadScene(number);
 }
 
@@ -59,9 +68,13 @@ void World::Load() {
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
 
-    LoadLevel(worldGenerator.full_generate());
+    worldGenerator = new WorldGenerator();
+
+    LoadLevel(worldGenerator->full_generate());
 
     SpawnObject(new PlayerCar({12850, 12850}));
+
+    isLoad = true;
 }
 
 GameObject* World::FindName(std::string name) {
@@ -128,6 +141,8 @@ void World::LoadLevel(std::vector<GameObject *> level1) {
 }
 
 void World::UnLoad() {
+    isLoad = false;
+
     camera->target = {0, 0};
 
     while (level->size() != 0) {
@@ -136,4 +151,5 @@ void World::UnLoad() {
     }
 
     delete mSpace;
+    delete worldGenerator;
 }

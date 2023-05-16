@@ -10,6 +10,8 @@
 #include <vector>
 #include "Scene.h"
 #include "GameObject.h"
+#include <iostream>
+#include <thread>
 
 #include "PlayerCar.h"
 #include "Barrier.h"
@@ -27,9 +29,13 @@ class World : public Scene {
 
     cp::Space *mSpace;
 
-    WorldGenerator worldGenerator;
+    WorldGenerator *worldGenerator;
 
-    const float distanceTouch = 250;
+    const float distanceTouch = 1000;
+
+    std::thread *PhisThread;
+
+    bool isLoad = false;
 
 public:
     World(int);

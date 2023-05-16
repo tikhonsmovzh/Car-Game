@@ -8,6 +8,7 @@
 #include <raylib.h>
 #include <vector>
 #include "Scene.h"
+#include <string>
 
 class Scene;
 
@@ -19,6 +20,8 @@ class SceneManager {
     Camera2D *camera;
 
     bool isExit = false;
+
+    Vector2 corner {0, 0};
 
 public:
     bool update();

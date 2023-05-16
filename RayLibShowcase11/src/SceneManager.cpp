@@ -14,6 +14,8 @@ bool SceneManager::update() {
 
     scenes.at(loadedScene)->update();
 
+    DrawText(std::to_string(GetFPS()).c_str(), camera->target.x - corner.x, camera->target.y - corner.y, 30, GREEN);
+
     EndMode2D();
     EndDrawing();
 
@@ -38,6 +40,8 @@ void SceneManager::LoadScene(int num) {
 SceneManager::SceneManager(Camera2D *camera2D, Vector2 *screen, std::vector<Scene*> sc) {
     camera = camera2D;
     Font TextFont {};// = LoadFont("../resources/found/technofosiano.ttf");
+    corner.x = screen->x / 2 - 15;
+    corner.y = screen->y / 2 - 15;
 
     if (TextFont.texture.id == 0) TextFont = GetFontDefault();
 

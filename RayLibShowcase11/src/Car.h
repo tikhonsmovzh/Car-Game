@@ -40,9 +40,10 @@ protected:
 public:
     Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
 
-    virtual void draw() = 0;
+    virtual void update() = 0;
 
     void Shape(cp::Space *);
+    void draw();
 
     void Touch(GameObject *, cpContactPointSet);
 };

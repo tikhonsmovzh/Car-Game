@@ -5,10 +5,12 @@
 #include "WorldGenerator.h"
 
 WorldGenerator::~WorldGenerator() {
-    for(int i = 0; i < scale.x; i++)
-        delete Matrix[i];
+    if(Matrix != nullptr) {
+        for (int i = 0; i < scale.x; i++)
+            delete Matrix[i];
 
-    delete Matrix;
+        delete Matrix;
+    }
 }
 
 Vector2 WorldGenerator::GetRand(Vector2 NowPos, GameObject*** worldMatrix, int countSide) {
@@ -62,6 +64,20 @@ void WorldGenerator::reload() {
     boolFirst = false;
     len = 0;
 
+    if(Matrix != nullptr)
+    {
+        for (int i = 0; i < scale.x; ++i) {
+            for (int j = 0; j < scale.y; ++j)
+                //if(Matrix[i][j] != nullptr)
+                    delete Matrix[i][j];
+        }
+
+        for (int i = 0; i < scale.x; i++)
+            delete Matrix[i];
+
+        delete Matrix;
+    }
+
     Matrix = new GameObject **[(int)scale.x];
 
     for (int i = 0; i < scale.x; i++)
@@ -108,11 +124,13 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
     while(!boolEnd){
         if(len < maxlen)
         {
-            if(firstSide != 0 && minLen < len && ((((NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y - 20)) &&
+            if(firstSide != 0 && minLen < len &&
+                    (((NowPos.x == Start.x + 20 || NowPos.x == Start.x - 20) && NowPos.y == Start.y) ||
+                     ((NowPos.y == Start.y - 20 || NowPos.y == Start.y + 20) && NowPos.x == Start.x)))/*((((NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y - 20)) &&
             ((NowPos.x == Start.x - 20 && NowPos.y == Start.y) ||
             (NowPos.x == Start.x && NowPos.y == Start.y + 20))) ||
             ((NowPos.x == Start.x && NowPos.y == Start.y + 20) || (NowPos.x == Start.x - 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y - 20)) ||
-            ((NowPos.x == Start.x - 20 && NowPos.y == Start.y) || (NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y + 20))))
+            ((NowPos.x == Start.x - 20 && NowPos.y == Start.y) || (NowPos.x == Start.x + 20 && NowPos.y == Start.y) || (NowPos.x == Start.x && NowPos.y == Start.y + 20))))*/
             {
                 boolEnd = true;
 

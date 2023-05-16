@@ -15,7 +15,7 @@ class PlayerCar: public Car {
 public:
     PlayerCar(Vector2);
 
-    void draw();
+    void update();
 
     void Start();
 };
