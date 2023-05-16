@@ -11,6 +11,7 @@
 #include "Asphalt.h"
 #include "GameObject.h"
 #include "Barrier.h"
+#include "Grass.h"
 
 class WorldGenerator{
     const float step = 300;

@@ -36,8 +36,8 @@ public:
 
     GameObject(Vector2, Vector2, std::string, Color);
 
-    std::shared_ptr<cp::Shape> myShape;
-    std::shared_ptr<cp::Body> myBody;
+    std::shared_ptr<cp::Shape> myShape = nullptr;
+    std::shared_ptr<cp::Body> myBody = nullptr;
 
     virtual void Shape(cp::Space *){}
     virtual void Start(){}
