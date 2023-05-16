@@ -5,7 +5,7 @@
 #include "Car.h"
 #include "World.h"
 
-Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening): GameObject(pos, scale, "Car", WHITE) {
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<Vector2> *road): GameObject(pos, scale, "Car", WHITE) {
     wheelLeft = wheelScale.x / 2 - scale.x / 2 + deepening;
     wheelRight = wheelScale.x / 2 + scale.x / 2 - deepening;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
@@ -33,6 +33,8 @@ void Car::draw() {
     DrawRectanglePro(wheelRect, {wheelRight, wheelDown}, rotation, wheelColor);
 
     DrawTexturePro(*carTexture, carSource, {position.x, position.y, scale.x, scale.y}, carOrigin, rotation, color);
+
+    //DrawRectangle(checkpoints->at(0).x, checkpoints->at(0).y, 1000, 1000, BLACK);
 }
 
 void Car::gas(float speedes) {

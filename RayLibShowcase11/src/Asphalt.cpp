@@ -22,4 +22,10 @@ void Asphalt::Shape(cp::Space *mSpace) {
 
 void Asphalt::draw() {
     DrawRectangleV(position, scale, color);
+
+    color = GRAY;
+}
+
+void Asphalt::Touch(GameObject *obj, cpContactPointSet) {
+    if(obj->name == "Car")color = GREEN;
 }

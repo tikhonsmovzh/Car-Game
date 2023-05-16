@@ -15,6 +15,8 @@ public:
     void Shape(cp::Space*);
 
     void draw();
+
+    void Touch(GameObject *, cpContactPointSet);
 };
 
 

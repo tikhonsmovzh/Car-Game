@@ -72,7 +72,14 @@ void World::Load() {
 
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar({12850, 12850}));
+    SpawnObject(new PlayerCar({worldGenerator->road[0].x + 150,  worldGenerator->road[0].y - 150}, &(worldGenerator->road))
+
+
+
+
+
+
+    );
 
     isLoad = true;
 }

@@ -15,6 +15,8 @@ class World;
 class Car : public GameObject {
     float overclocking, wheelAngle = 0, rotation = 0, phisRotation = 0, wheelUp, wheelDown, wheelLeft, wheelRight, speed = 0, wheelRotSpeed;
 
+    std::vector<Vector2> *checkpoints;
+
     const Color wheelColor {105, 105, 105, 255};
 
     int axis;
@@ -23,7 +25,7 @@ class Car : public GameObject {
 
     bool isGas = false, isAsphaltTouch = false;
 
-    Vector2 carOrigin;
+    Vector2 carOrigin, checkpoint;
 
     Texture2D *carTexture;
     Rectangle carSource;
@@ -38,7 +40,7 @@ protected:
     void settings(Texture2D *);
 
 public:
-    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
+    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<Vector2> *road);
 
     virtual void update() = 0;
 
