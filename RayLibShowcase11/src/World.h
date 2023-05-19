@@ -14,6 +14,7 @@
 #include <thread>
 
 #include "PlayerCar.h"
+#include "BotCar.h"
 #include "Barrier.h"
 #include "Asphalt.h"
 #include "WorldGenerator.h"

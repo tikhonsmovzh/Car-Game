@@ -14,13 +14,13 @@
 class World;
 
 class Car : public GameObject {
-    float overclocking, wheelAngle = 0, rotation = 0, phisRotation = 0, wheelUp, wheelDown, wheelLeft, wheelRight, speed = 0, wheelRotSpeed;
+    float overclocking, wheelUp, wheelDown, wheelLeft, wheelRight, speed = 0, axis;
 
     const Color wheelColor {105, 105, 105, 255};
 
-    int axis;
-
     const Vector2 wheelScale {15, 30};
+
+    float wheelRotSpeed, wheelAngle;
 
     const float checkDist = 250;
 
@@ -43,6 +43,7 @@ protected:
 
     std::vector<GameObject *> checkpoints;
 
+    float rotation = 0;
     int currentCheckpoint = 0;
 
 public:

@@ -19,6 +19,8 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
         checkpoints.push_back(check->at(i));
 
     carOrigin = {scale.x / 2, (float)axis};
+
+    rotation = -(std::atan2(position.x - checkpoints.at(0)->position.x - 125, position.y - checkpoints.at(0)->position.y - 125) * 180 / PI);
 }
 
 void Car::settings(Texture2D *texture) {
@@ -49,9 +51,8 @@ void Car::gas(float speedes) {
     float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
 
     rotation += wheelRotation;
-    phisRotation -= wheelRotation;
 
-    cpBodySetAngle(*myBody, (phisRotation + 180) / 180.0 * PI);
+    cpBodySetAngle(*myBody, (-rotation + 180) / 180.0 * PI);
 
     float currentSpeed;
 
@@ -76,7 +77,7 @@ void Car::gas(float speedes) {
 }
 
 void Car::Rotation(int rot){
-    int differenceRot = rot - wheelAngle;
+    float differenceRot = rot - wheelAngle;
 
     if(differenceRot == 0)
         return;
@@ -94,7 +95,7 @@ void Car::updateCar() {
         speed *= 0.9;
         cp::Vect saveVelocity = myBody->getVelocity();
 
-        myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
+        myBody->setVelocity(cp::Vect(saveVelocity.x * (1.0 - overclocking), saveVelocity.y * (1.0 - overclocking)));
     }
 
     Vector2 leg {checkpoints.at(currentCheckpoint)->position.x + 150 - position.x,
@@ -132,6 +133,7 @@ void Car::Shape(cp::Space *mSpace) {
     mSpace->add(myShape);
 
     myBody->setVelocity(cpvzero);
+    cpBodySetAngle(*myBody, (-rotation + 180) / 180.0 * PI);
 }
 
 void Car::Touch(GameObject *object, cpContactPointSet points) {

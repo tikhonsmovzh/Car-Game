@@ -71,6 +71,7 @@ void World::Load() {
     LoadLevel(worldGenerator->full_generate());
 
     SpawnObject(new PlayerCar({12850, 12850}, &worldGenerator->road));
+    SpawnObject(new BotCar({12000, 12000}, &worldGenerator->road));
 
     isLoad = true;
 }
