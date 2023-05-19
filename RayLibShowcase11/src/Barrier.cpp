@@ -3,6 +3,7 @@
 //
 
 #include "Barrier.h"
+#include "World.h"
 
 Barrier::Barrier(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Barrier", BROWN) {}
 
@@ -22,4 +23,10 @@ void Barrier::Shape(cp::Space *mSpace) {
 
 void Barrier::draw() {
     DrawRectangleV(position, scale, color);
+}
+
+void Barrier::Touch(GameObject *object, cpContactPointSet points){
+    if(object->name == "Car"){
+        world->Destroy(object);
+    }
 }

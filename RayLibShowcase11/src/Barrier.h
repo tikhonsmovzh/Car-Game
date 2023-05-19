@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include <chipmunk.hpp>
 
+class World;
+
 class Barrier: public GameObject{
 public:
     Barrier(Vector2);
@@ -15,6 +17,8 @@ public:
     void Shape(cp::Space*);
 
     void draw();
+
+    void Touch(GameObject *, cpContactPointSet);
 };
 
 

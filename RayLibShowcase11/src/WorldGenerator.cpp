@@ -155,6 +155,8 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
         }
     }
 
+    for(int i = 0; i < )
+
     std::vector<GameObject*> world;
 
     for (int i = 0; i < scale.x; ++i) {
