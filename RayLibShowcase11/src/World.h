@@ -35,10 +35,11 @@ class World : public Scene {
 
     std::thread *PhisThread;
 
-    bool isLoad = false;
+    bool isLoad = false, isWork = true;
 
 public:
     World(int);
+    ~World();
 
     void update();
 
@@ -55,10 +56,6 @@ public:
     void Load();
 
     void UnLoad();
-
-    void SceneLoad();
-
-    bool isPause = false;
 };
 
 #endif //RAYLIBSHOWCASE_WORLD_H

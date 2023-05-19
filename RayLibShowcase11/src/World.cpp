@@ -14,19 +14,19 @@ World::World(int num): Scene(num) {
     level = new std::vector<GameObject*>;
 
     PhisThread = new std::thread([&](){
-        while(!IsKeyDown(KEY_TAB)) {
+        while(isWork) {
             if(isLoad) {
                 for (int i = 0; i < level->size() - 1; i++) {
-                    if (level->at(i)->myShape != nullptr) {
+                    if (isLoad && level->at(i)->myShape != nullptr) {
                         for (int j = i + 1; j < level->size(); j++) {
-                            if (level->at(j)->myShape != nullptr &&
+                            if (isLoad && level->at(j)->myShape != nullptr &&
                                 std::abs(level->at(i)->position.x - level->at(j)->position.x) +
                                 std::abs(level->at(i)->position.y - level->at(j)->position.y) <
                                 distanceTouch) {
                                 auto points = cpShapesCollide(*(level->at(j)->myShape),
                                                           *(level->at(i)->myShape));
 
-                                if (points.count > 0) {
+                                if (isLoad && points.count > 0) {
                                     int saveSize = level->size();
 
                                     level->at(i)->Touch(level->at(j), points);
@@ -47,7 +47,8 @@ void World::update() {
     frameCount++;
     frameCount %= UINT64_MAX;
 
-    mSpace->step(1.0 / 60.0);
+    if(GetFPS() != 0)
+        mSpace->step(1.0 / GetFPS());
 
     for (int i = 0; i < level->size(); i++)
         level->at(i)->update();
@@ -57,9 +58,6 @@ void World::update() {
 
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
-
-    if(IsKeyPressed(KEY_R))
-        sceneManager->LoadScene(number);
 }
 
 void World::Load() {
@@ -72,7 +70,7 @@ void World::Load() {
 
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar({12850, 12850}));
+    SpawnObject(new PlayerCar({12850, 12850}, &worldGenerator->road));
 
     isLoad = true;
 }
@@ -152,4 +150,8 @@ void World::UnLoad() {
 
     delete mSpace;
     delete worldGenerator;
+}
+
+World::~World() {
+    isWork = false;
 }

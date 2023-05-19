@@ -34,6 +34,8 @@ class WorldGenerator{
 public:
     std::vector<GameObject*> full_generate();
     ~WorldGenerator();
+
+    std::vector<GameObject *> road;
 };
 
 

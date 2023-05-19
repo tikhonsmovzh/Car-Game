@@ -9,6 +9,7 @@
 #include <raylib.h>
 #include <string>
 #include <iostream>
+#include <vector>
 
 class World;
 
@@ -21,6 +22,8 @@ class Car : public GameObject {
 
     const Vector2 wheelScale {15, 30};
 
+    const float checkDist = 250;
+
     bool isGas = false, isAsphaltTouch = false;
 
     Vector2 carOrigin;
@@ -32,18 +35,23 @@ protected:
     void Rotation(int);
 
     void updateCar();
+    void drawCar();
 
     void gas(float);
 
     void settings(Texture2D *);
 
-public:
-    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening);
+    std::vector<GameObject *> checkpoints;
 
-    virtual void update() = 0;
+    int currentCheckpoint = 0;
+
+public:
+    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<GameObject*> *);
+
+    virtual void update();
+    virtual void draw();
 
     void Shape(cp::Space *);
-    void draw();
 
     void Touch(GameObject *, cpContactPointSet);
 };

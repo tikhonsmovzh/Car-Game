@@ -29,6 +29,7 @@ protected:
     Camera2D *camera;
 
     Vector2 *screen;
+
 public:
     Vector2 position;
     Vector2 scale;
