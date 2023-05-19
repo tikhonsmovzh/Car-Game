@@ -150,7 +150,12 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
 
     for(int i = 0; i < scale.x; ++i){
         for(int j = 0; j < scale.y; ++j){
-            if(Matrix[i][j] == nullptr) Matrix[i][j] = new Grass({i*step+150, j*step+150});
+            if(Matrix[i][j] == nullptr) {
+                if(GetRandomValue(0, 4) == 0){
+                    Matrix[i][j] = new Tree({i*step+150, j*step+150});
+                }
+                else Matrix[i][j] = new Grass({i*step+150, j*step+150});
+            }
         }
     }
 

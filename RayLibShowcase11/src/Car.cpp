@@ -126,6 +126,5 @@ void Car::Shape(cp::Space *mSpace) {
 void Car::Touch(GameObject *object, cpContactPointSet points) {
     if(object->name == "Asphalt") {
         isAsphaltTouch = true;
-        std::cout << "asphalt" << '\n';
     }
 }
