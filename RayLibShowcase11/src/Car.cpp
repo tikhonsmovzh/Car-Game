@@ -5,7 +5,7 @@
 #include "Car.h"
 #include "World.h"
 
-Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening): GameObject(pos, scale, "Car", WHITE) {
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<GameObject *> *check): GameObject(pos, scale, "Car", WHITE) {
     wheelLeft = wheelScale.x / 2 - scale.x / 2 + deepening;
     wheelRight = wheelScale.x / 2 + scale.x / 2 - deepening;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
@@ -14,6 +14,9 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
     this->wheelRotSpeed = wheelRotSpeed;
     this->overclocking = overclocking;
     this->axis = axis;
+
+    for(int i = 0; i < check->size(); i++)
+        checkpoints.push_back(check->at(i));
 
     carOrigin = {scale.x / 2, (float)axis};
 }
@@ -24,7 +27,7 @@ void Car::settings(Texture2D *texture) {
     carSource = {0,0, (float)carTexture->width, (float)carTexture->height};
 }
 
-void Car::draw() {
+void Car::drawCar() {
     Rectangle wheelRect = {position.x, position.y, wheelScale.x, wheelScale.y};
 
     DrawRectanglePro(wheelRect, {wheelLeft, wheelUp}, rotation + wheelAngle, wheelColor);
@@ -94,6 +97,14 @@ void Car::updateCar() {
         myBody->setVelocity(cp::Vect(saveVelocity.x * 0.9, saveVelocity.y * 0.9));
     }
 
+    Vector2 leg {checkpoints.at(currentCheckpoint)->position.x + 150 - position.x,
+                 checkpoints.at(currentCheckpoint)->position.y + 150 - position.y};
+
+    if(leg.x * leg.x + leg.y * leg.y < checkDist * checkDist) {
+        currentCheckpoint ++;
+        currentCheckpoint %= checkpoints.size();
+    }
+
     cp::Vect savePos = cpBodyGetPosition(*myBody);
 
     position = {(float)savePos.x, -(float)savePos.y};
@@ -127,3 +138,6 @@ void Car::Touch(GameObject *object, cpContactPointSet points) {
     if(object->name == "Asphalt")
         isAsphaltTouch = true;
 }
+
+void Car::draw() {drawCar();}
+void Car::update() {updateCar();}

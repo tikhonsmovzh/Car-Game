@@ -10,6 +10,7 @@
 #include <vector>
 #include "Asphalt.h"
 #include "GameObject.h"
+#include "Barrier.h"
 
 class WorldGenerator{
     const float step = 300;
@@ -34,6 +35,8 @@ class WorldGenerator{
 public:
     std::vector<GameObject*> full_generate();
     ~WorldGenerator();
+
+    std::vector<GameObject *> road;
 };
 
 

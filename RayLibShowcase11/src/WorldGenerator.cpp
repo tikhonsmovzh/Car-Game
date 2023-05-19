@@ -64,6 +64,9 @@ void WorldGenerator::reload() {
     boolFirst = false;
     len = 0;
 
+    while (road.size() != 0)
+        road.pop_back();
+
     if(Matrix != nullptr)
     {
         for (int i = 0; i < scale.x; ++i) {
@@ -91,13 +94,13 @@ void WorldGenerator::reload() {
     Matrix[(int)scale.x/2][(int)scale.x/2] = new Asphalt({scale.x/2*step, scale.x/2*step});
 
     for(int i = 0;i < scale.x; i++){
-        Matrix[0][i] = new Asphalt({0, step * i});
-        Matrix[(int)scale.x-1][i] = new Asphalt({(scale.x-1)*step, i*step});
+        Matrix[0][i] = new Barrier({0, step * i});
+        Matrix[(int)scale.x-1][i] = new Barrier({(scale.x-1)*step, i*step});
     }
 
     for(int i = 0;i < scale.x; i++){
-        Matrix[i][0] = new Asphalt({step * i, 0});
-        Matrix[i][(int)scale.x-1] = new Asphalt({step * i, step * (scale.x-1)});
+        Matrix[i][0] = new Barrier({step * i, 0});
+        Matrix[i][(int)scale.x-1] = new Barrier({step * i, step * (scale.x-1)});
     }
 
     NowPos = Start;
@@ -112,7 +115,11 @@ void WorldGenerator::generate() {
     if(side == 3 && oldSide != 1)   NowPos.y = NowPos.y + 10;
     if(side == 4 && oldSide != 2)   NowPos.x = NowPos.x - 10;
 
-    Matrix[int(NowPos.y/10)][int(NowPos.x/10)] = new Asphalt({NowPos.y/10*step, NowPos.x/10*step});
+    GameObject *spawnedObject = new Asphalt({NowPos.y/10*step, NowPos.x/10*step});
+
+    Matrix[int(NowPos.y/10)][int(NowPos.x/10)] = spawnedObject;
+
+    road.push_back(spawnedObject);
 
     oldSide = side;
     len++;
@@ -156,6 +163,9 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
                 world.push_back(Matrix[i][j]);
         }
     }
+
+//    for(int i = 0; i  < world.size(); i++)
+//        std::cout << world[i]->position.x << ' ' << world[i]->position.y << '\n';
 
     return world;
 }
