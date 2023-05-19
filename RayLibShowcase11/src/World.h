@@ -21,6 +21,9 @@
 #include "Asphalt.h"
 
 class World : public Scene {
+
+    std::vector<Car *> CarLevel;
+
     unsigned long long frameCount = 0;
 
     void DeleteObject(GameObject*);

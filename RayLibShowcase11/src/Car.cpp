@@ -34,7 +34,6 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
 
 void Car::settings(Texture2D *texture) {
     carTexture = texture;
-
     carSource = {0,0, (float)carTexture->width, (float)carTexture->height};
 }
 
@@ -125,6 +124,10 @@ void Car::updateCar() {
     if(leg.x * leg.x + leg.y * leg.y < checkDist * checkDist) {
         currentCheckpoint ++;
         currentCheckpoint %= checkpoints->size();
+        std::cout << currentCheckpoint << "\n";
+        if(currentCheckpoint == checkpoints->size()-1){
+            passedCircle++;
+        }
     }
 
     cp::Vect savePos = cpBodyGetPosition(*myBody);

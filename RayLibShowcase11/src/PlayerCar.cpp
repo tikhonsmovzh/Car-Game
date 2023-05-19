@@ -41,4 +41,5 @@ void PlayerCar::draw() {
     DrawRectangleV({checkpoints->at(currentCheckpoint)->x - 25,
                     checkpoints->at(currentCheckpoint)->y - 25},
                    {50, 50}, BLACK);
+
 }

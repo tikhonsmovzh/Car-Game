@@ -4,12 +4,6 @@
 
 #include "World.h"
 
-//
-// Created by fools on 8/7/2021.
-//
-
-#include "World.h"
-
 World::World(int num): Scene(num) {
     level = new std::vector<GameObject*>;
 
@@ -65,7 +59,13 @@ void World::updateInterface() {
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
 
-    if(isPause) {
+    for(int i = 0; i < CarLevel.size(); i++){
+        if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
+            DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
+        }
+    }
+    
+     if(isPause) {
         DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 110});
         DrawTextEx(TextFont, "Pause",{screen->x / 2 - 90, screen->y / 2 - 250}, 65, 3, BLACK);
 
