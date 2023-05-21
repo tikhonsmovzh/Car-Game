@@ -21,7 +21,7 @@ class SceneManager {
 
     bool isExit = false;
 
-    Vector2 corner {0, 0};
+    Font TextFont;
 
 public:
     bool update();

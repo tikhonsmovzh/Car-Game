@@ -4,16 +4,16 @@
 
 #include "BotCar.h"
 
-BotCar::BotCar(Vector2 pos, std::vector<GameObject*> *road): Car(pos, {75, 150},
-                                                                       0.4, 35, 0.05, 75, 9, road) {
+BotCar::BotCar(Vector2 pos, std::vector<Vector2*> *road): Car(pos, {75, 150},
+                                                                       0.4, 35, 0.08, 75, 9, road) {
     static Texture2D texture2D = LoadTexture("../resources/texture/cars/car2.png");
 
     settings(&texture2D);
 }
 
 void BotCar::update() {
-    float targetDegree = std::atan2(position.y - checkpoints.at(currentCheckpoint)->position.y - 125,
-                                    position.x - checkpoints.at(currentCheckpoint)->position.x - 125) * 180 / PI - 90;
+    float targetDegree = std::atan2(position.y - checkpoints->at(currentCheckpoint)->y,
+                                    position.x - checkpoints->at(currentCheckpoint)->x) * 180 / PI - 90;
 
     float difference = int(targetDegree - (float)rotation) % 360;
 
@@ -26,15 +26,7 @@ void BotCar::update() {
     else
         Rotation(-wheel);
 
-    gas(speed);
+    gas(maxSpeed);
 
     updateCar();
-}
-
-void BotCar::draw() {
-    drawCar();
-
-    DrawRectangleV({checkpoints.at(currentCheckpoint)->position.x + 125,
-                    checkpoints.at(currentCheckpoint)->position.y + 125},
-                   {50, 50}, GREEN);
 }

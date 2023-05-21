@@ -5,7 +5,7 @@
 #include "Car.h"
 #include "World.h"
 
-Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<GameObject *> *check): GameObject(pos, scale, "Car", WHITE) {
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<Vector2 *> *check): GameObject(pos, scale, "Car", WHITE) {
     wheelLeft = wheelScale.x / 2 - scale.x / 2 + deepening;
     wheelRight = wheelScale.x / 2 + scale.x / 2 - deepening;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
@@ -15,12 +15,11 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
     this->overclocking = overclocking;
     this->axis = axis;
 
-    for(int i = 0; i < check->size(); i++)
-        checkpoints.push_back(check->at(i));
+    checkpoints = check;
 
     carOrigin = {scale.x / 2, (float)axis};
 
-    rotation = -(std::atan2(position.x - checkpoints.at(0)->position.x - 125, position.y - checkpoints.at(0)->position.y - 125) * 180 / PI);
+    rotation = -(std::atan2(position.x - checkpoints->at(1)->x, position.y - checkpoints->at(1)->y) * 180 / PI);
 }
 
 void Car::settings(Texture2D *texture) {
@@ -45,12 +44,13 @@ void Car::gas(float speedes) {
 
     float speeds = speedes;
 
-    if(isAsphaltTouch)
+    if(isAsphaltTouch) {
         speeds *= 1.6;
+    }
 
-    float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
+    //float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
 
-    rotation += wheelRotation;
+    rotation += wheelAngle * sign(speed);
 
     cpBodySetAngle(*myBody, (-rotation + 180) / 180.0 * PI);
 
@@ -61,10 +61,12 @@ void Car::gas(float speedes) {
     else
         currentSpeed = speeds;
 
-    if(signbit(speed) != signbit(speeds))
+    if(signbit(speed) != signbit(speedes))
         speed = 0;
 
     if(speed != currentSpeed) {
+        if(std::abs(speed - currentSpeed) < overclocking)
+            speed = currentSpeed;
         if (speed > currentSpeed)
             speed -= overclocking;
         else
@@ -76,11 +78,13 @@ void Car::gas(float speedes) {
     myBody->setVelocity(cp::Vect(velocity.x, velocity.y));
 }
 
-void Car::Rotation(int rot){
+void Car::Rotation(float rot){
     float differenceRot = rot - wheelAngle;
 
-    if(differenceRot == 0)
+    if(std::abs(differenceRot) < wheelRotSpeed) {
+        wheelAngle = rot;
         return;
+    }
 
     if(differenceRot < 0) {
         wheelAngle -= wheelRotSpeed;
@@ -92,18 +96,18 @@ void Car::Rotation(int rot){
 
 void Car::updateCar() {
     if(!isGas) {
-        speed *= 0.9;
+        speed *= 1.0 - overclocking;
         cp::Vect saveVelocity = myBody->getVelocity();
 
         myBody->setVelocity(cp::Vect(saveVelocity.x * (1.0 - overclocking), saveVelocity.y * (1.0 - overclocking)));
     }
 
-    Vector2 leg {checkpoints.at(currentCheckpoint)->position.x + 150 - position.x,
-                 checkpoints.at(currentCheckpoint)->position.y + 150 - position.y};
+    Vector2 leg {checkpoints->at(currentCheckpoint)->x - position.x,
+                 checkpoints->at(currentCheckpoint)->y - position.y};
 
     if(leg.x * leg.x + leg.y * leg.y < checkDist * checkDist) {
         currentCheckpoint ++;
-        currentCheckpoint %= checkpoints.size();
+        currentCheckpoint %= checkpoints->size();
     }
 
     cp::Vect savePos = cpBodyGetPosition(*myBody);
@@ -143,3 +147,5 @@ void Car::Touch(GameObject *object, cpContactPointSet points) {
 
 void Car::draw() {drawCar();}
 void Car::update() {updateCar();}
+
+float Car::GetSpeed() {return speed;}

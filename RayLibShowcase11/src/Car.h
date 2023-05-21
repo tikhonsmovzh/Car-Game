@@ -22,7 +22,7 @@ class Car : public GameObject {
 
     float wheelRotSpeed, wheelAngle;
 
-    const float checkDist = 250;
+    const float checkDist = 260;
 
     bool isGas = false, isAsphaltTouch = false;
 
@@ -32,7 +32,7 @@ class Car : public GameObject {
     Rectangle carSource;
 
 protected:
-    void Rotation(int);
+    void Rotation(float);
 
     void updateCar();
     void drawCar();
@@ -41,13 +41,15 @@ protected:
 
     void settings(Texture2D *);
 
-    std::vector<GameObject *> checkpoints;
+    std::vector<Vector2 *> *checkpoints;
 
     float rotation = 0;
     int currentCheckpoint = 0;
 
+    float GetSpeed();
+
 public:
-    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<GameObject*> *);
+    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<Vector2 *> *);
 
     virtual void update();
     virtual void draw();

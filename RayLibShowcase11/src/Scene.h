@@ -14,7 +14,7 @@ class Scene {
 protected:
     SceneManager *sceneManager;
 
-    Font *TextFont;
+    Font TextFont;
 
     Vector2 *screen;
 
@@ -25,12 +25,13 @@ public:
     Scene(int);
 
     virtual void update(){}
+    virtual void updateInterface(){}
 
     virtual void Load(){}
 
     virtual void UnLoad(){}
 
-    void Start(SceneManager *, Font *, Vector2 *, Camera2D *);
+    void Start(SceneManager *, Font, Vector2 *, Camera2D *);
 };
 
 

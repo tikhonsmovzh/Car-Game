@@ -9,16 +9,14 @@
 #include "Car.h"
 
 class BotCar: public Car {
-    const float speed = 8;
+    const float maxSpeed = 8;
 
     const int wheel = 3;
 
 public:
-    BotCar(Vector2, std::vector<GameObject*> *);
+    BotCar(Vector2, std::vector<Vector2*> *);
 
     void update();
-
-    void draw();
 };
 
 

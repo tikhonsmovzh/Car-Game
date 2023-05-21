@@ -8,15 +8,18 @@ bool SceneManager::update() {
     isExit = false;
 
     BeginDrawing();
-    BeginMode2D(*camera);
-
     ClearBackground(WHITE);
+
+    BeginMode2D(*camera);
 
     scenes.at(loadedScene)->update();
 
-    DrawText(std::to_string(GetFPS()).c_str(), camera->target.x - corner.x, camera->target.y - corner.y, 30, GREEN);
-
     EndMode2D();
+
+    scenes.at(loadedScene)->updateInterface();
+
+    DrawTextEx(TextFont, std::to_string(GetFPS()).c_str(), {3,3}, 30, 3, GREEN);
+
     EndDrawing();
 
     return isExit;
@@ -40,14 +43,13 @@ void SceneManager::LoadScene(int num) {
 SceneManager::SceneManager(Camera2D *camera2D, Vector2 *screen, std::vector<Scene*> sc) {
     camera = camera2D;
     Font TextFont {};// = LoadFont("../resources/found/technofosiano.ttf");
-    corner.x = screen->x / 2 - 15;
-    corner.y = screen->y / 2 - 15;
+    this->TextFont = TextFont;
 
     if (TextFont.texture.id == 0) TextFont = GetFontDefault();
 
     for(int i = 0; i < sc.size(); i++) {
         scenes.push_back(sc.at(i));
-        sc.at(i)->Start(this, &TextFont, screen, camera2D);
+        sc.at(i)->Start(this, TextFont, screen, camera2D);
     }
 
     scenes.at(0)->Load();

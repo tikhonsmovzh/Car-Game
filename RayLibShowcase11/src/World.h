@@ -12,12 +12,13 @@
 #include "GameObject.h"
 #include <iostream>
 #include <thread>
+#include "Button.h"
+#include "WorldGenerator.h"
 
 #include "PlayerCar.h"
 #include "BotCar.h"
 #include "Barrier.h"
 #include "Asphalt.h"
-#include "WorldGenerator.h"
 
 class World : public Scene {
     unsigned long long frameCount = 0;
@@ -43,6 +44,7 @@ public:
     ~World();
 
     void update();
+    void updateInterface();
 
     GameObject* FindName(std::string);
 

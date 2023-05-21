@@ -55,7 +55,9 @@ void World::update() {
 
     for(int i = 0; i < level->size(); i++)
         level->at(i)->draw();
+}
 
+void World::updateInterface() {
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
 }
