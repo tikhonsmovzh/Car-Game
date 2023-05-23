@@ -61,6 +61,7 @@ void World::updateInterface() {
 
     for(int i = 0; i < CarLevel.size(); i++){
         if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
+            if(i = 0)   
             DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
         }
     }
