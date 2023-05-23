@@ -18,11 +18,11 @@ protected:
 
     Vector2 physicsToWorldCoord(float x, float y);
 
-    Vector2 degreesToVector(double force, int alpha);
+    Vector2 degreesToVector(double force, float alpha);
 
     World *world;
 
-    Font *textFont;
+    Font textFont;
 
     int sign(float);
 
@@ -43,7 +43,7 @@ public:
     virtual void Shape(cp::Space *){}
     virtual void Start(){}
 
-    void Awake(World *, Font *, Camera2D *, Vector2 *);
+    void Awake(World *, Font, Camera2D *, Vector2 *);
 
     virtual void update(){}
     virtual void draw(){}

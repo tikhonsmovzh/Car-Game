@@ -15,23 +15,23 @@ World::World(int num): Scene(num) {
 
     PhisThread = new std::thread([&](){
         while(isWork) {
-            if(isLoad) {
+            if(isLoad && !isPause) {
                 for (int i = 0; i < level->size() - 1; i++) {
-                    if (isLoad && level->at(i)->myShape != nullptr) {
+                    if (isLoad && !isPause && level->at(i)->myShape != nullptr) {
                         for (int j = i + 1; j < level->size(); j++) {
-                            if (isLoad && level->at(j)->myShape != nullptr &&
+                            if (isLoad && !isPause && level->at(j)->myShape != nullptr &&
                                 std::abs(level->at(i)->position.x - level->at(j)->position.x) +
                                 std::abs(level->at(i)->position.y - level->at(j)->position.y) <
                                 distanceTouch) {
                                 auto points = cpShapesCollide(*(level->at(j)->myShape),
                                                           *(level->at(i)->myShape));
 
-                                if (isLoad && points.count > 0) {
+                                if (isLoad && !isPause && points.count > 0) {
                                     int saveSize = level->size();
 
                                     level->at(i)->Touch(level->at(j), points);
 
-                                    if (saveSize == level->size())
+                                    if (isLoad && !isPause && saveSize == level->size())
                                         level->at(j)->Touch(level->at(i), points);
                                 }
                             }
@@ -44,33 +44,59 @@ World::World(int num): Scene(num) {
 }
 
 void World::update() {
-    frameCount++;
-    frameCount %= UINT64_MAX;
+    if(!isPause) {
+        frameCount++;
+        frameCount %= UINT64_MAX;
 
-    if(GetFPS() != 0)
-        mSpace->step(1.0 / GetFPS());
+        mSpace->step(1.0 / 60.0);
 
-    for (int i = 0; i < level->size(); i++)
-        level->at(i)->update();
+        for (int i = 0; i < level->size(); i++)
+            level->at(i)->update();
+    }
 
     for(int i = 0; i < level->size(); i++)
         level->at(i)->draw();
 
+    if(IsKeyPressed(KEY_ESCAPE))
+        isPause = !isPause;
+}
+
+void World::updateInterface() {
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
+
+    if(isPause) {
+        DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 110});
+        DrawTextEx(TextFont, "Pause",{screen->x / 2 - 90, screen->y / 2 - 250}, 65, 3, BLACK);
+
+        startButton->update();
+        restartButton->update();
+
+        if(startButton->isTouch)
+            isPause = false;
+
+        if(restartButton->isTouch) {
+            sceneManager->LoadScene(number);
+            return;
+        }
+    }
 }
 
 void World::Load() {
-    camera->target = {0, 0};
+    isPause = false;
 
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
 
     worldGenerator = new WorldGenerator();
 
+    startButton = new Button({screen->x / 2, screen->y / 2 + 50, 200, 100}, "continue", TextFont);
+    restartButton = new Button({screen->x / 2 - 250, screen->y / 2 + 50, 200, 100}, "restart", TextFont);
+
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar({12850, 12850}, &worldGenerator->road));
+    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road));
+    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road));
 
     isLoad = true;
 }
@@ -141,13 +167,13 @@ void World::LoadLevel(std::vector<GameObject *> level1) {
 void World::UnLoad() {
     isLoad = false;
 
-    camera->target = {0, 0};
-
     while (level->size() != 0) {
         DeleteObject(level->at(0));
         level->erase(level->begin());
     }
 
+    delete startButton;
+    delete restartButton;
     delete mSpace;
     delete worldGenerator;
 }

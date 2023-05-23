@@ -14,15 +14,18 @@
 class World;
 
 class Car : public GameObject {
-    float overclocking, wheelAngle = 0, rotation = 0, phisRotation = 0, wheelUp, wheelDown, wheelLeft, wheelRight, speed = 0, wheelRotSpeed;
+    float overclocking = 0, wheelUp = 0, wheelDown = 0, wheelLeft = 0, wheelRight = 0, speed = 0, axis = 0, driftSpeed = 0, driftAngle = 0;
 
     const Color wheelColor {105, 105, 105, 255};
 
-    int axis;
-
     const Vector2 wheelScale {15, 30};
 
-    const float checkDist = 250;
+    const float maxDriftAngle = 45;
+    const float driftSensitivity = 0.5;
+
+    float wheelRotSpeed = 0, wheelAngle = 0;
+
+    const float checkDist = 260;
 
     bool isGas = false, isAsphaltTouch = false;
 
@@ -32,7 +35,7 @@ class Car : public GameObject {
     Rectangle carSource;
 
 protected:
-    void Rotation(int);
+    void Rotation(float);
 
     void updateCar();
     void drawCar();
@@ -41,12 +44,15 @@ protected:
 
     void settings(Texture2D *);
 
-    std::vector<GameObject *> checkpoints;
+    std::vector<Vector2 *> *checkpoints;
 
+    float rotation = 0;
     int currentCheckpoint = 0;
 
+    float GetSpeed();
+
 public:
-    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<GameObject*> *);
+    Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, float driftSpeed, std::vector<Vector2 *> *);
 
     virtual void update();
     virtual void draw();
