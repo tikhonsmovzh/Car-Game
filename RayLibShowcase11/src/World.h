@@ -40,7 +40,7 @@ class World : public Scene {
 
     std::thread *PhisThread;
 
-    Button *startButton, *restartButton;
+    Button *startButton, *restartButton, *BackButton;
 
     int *flagChoose;
 

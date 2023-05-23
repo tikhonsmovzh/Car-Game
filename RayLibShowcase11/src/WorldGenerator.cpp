@@ -69,6 +69,9 @@ void WorldGenerator::reload() {
     boolFirst = false;
     len = 0;
 
+    static int count = 0;
+    std::cout << ++count << '\n';
+
     while (road.size() != 0) {
         delete road.at(road.size() - 1);
         road.pop_back();

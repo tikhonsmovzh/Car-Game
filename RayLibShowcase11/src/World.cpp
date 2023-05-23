@@ -60,12 +60,10 @@ void World::updateInterface() {
     for(int i = 0; i < level->size(); i++)
         level->at(i)->drawInterface(camera->target);
 
-    for(int i = 0; i < CarLevel.size(); i++){
-        if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
-            if(i = 0)   
-            DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
-        }
-    }
+    if(isPause) {
+        DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 90});
+      
+
     
      if(isPause) {
         DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 110});
@@ -73,6 +71,7 @@ void World::updateInterface() {
 
         startButton->update();
         restartButton->update();
+        BackButton->update();
 
         if(startButton->isTouch)
             isPause = false;
@@ -81,7 +80,22 @@ void World::updateInterface() {
             sceneManager->LoadScene(number);
             return;
         }
+
+        if(BackButton->isTouch)
+        {
+            sceneManager->LoadScene(0);
+            return;
+        }
     }
+    else
+    {
+        for(int i = 0; i < CarLevel.size(); i++){
+          if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
+            if(i = 0)   
+              DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
+     }
+    }
+      }
 }
 
 void World::Load() {
@@ -94,6 +108,7 @@ void World::Load() {
 
     startButton = new Button({screen->x / 2, screen->y / 2 + 50, 200, 100}, "continue", TextFont);
     restartButton = new Button({screen->x / 2 - 250, screen->y / 2 + 50, 200, 100}, "restart", TextFont);
+    BackButton = new Button({screen->x / 2 + 250, screen->y / 2 + 50, 200, 100}, "menu", TextFont);
 
     LoadLevel(worldGenerator->full_generate());
 
@@ -176,6 +191,7 @@ void World::UnLoad() {
 
     delete startButton;
     delete restartButton;
+    delete BackButton;
     delete mSpace;
     delete worldGenerator;
 }
