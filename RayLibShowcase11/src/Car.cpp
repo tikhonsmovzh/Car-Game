@@ -5,7 +5,7 @@
 #include "Car.h"
 #include "World.h"
 
-Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, std::vector<Vector2 *> *check): GameObject(pos, scale, "Car", WHITE) {
+Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, float overclocking, int axis, int deepening, float driftSpeed, std::vector<Vector2 *> *check): GameObject(pos, scale, "Car", WHITE) {
     wheelLeft = wheelScale.x / 2 - scale.x / 2 + deepening;
     wheelRight = wheelScale.x / 2 + scale.x / 2 - deepening;
     wheelUp = wheelScale.y / 2 - wheelDistance + axis;
@@ -14,6 +14,8 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
     this->wheelRotSpeed = wheelRotSpeed;
     this->overclocking = overclocking;
     this->axis = axis;
+
+    this->driftSpeed = driftSpeed;
 
     checkpoints = check;
 
@@ -78,7 +80,17 @@ void Car::gas(float speedes) {
             speed += overclocking;
     }
 
-    Vector2 velocity = degreesToVector(speed, rotation);
+    if(speed > driftSpeed && std::abs(wheelAngle) > driftSensitivity) {
+        if(std::abs(driftAngle) < maxDriftAngle) {
+            if (driftAngle > -maxDriftAngle * sign(wheelAngle))
+                driftAngle -= driftSensitivity;
+            else
+                driftAngle += driftSensitivity;
+        }
+    } else
+        driftAngle = 0;
+
+    Vector2 velocity = degreesToVector(speed, rotation + driftAngle);
 
     myBody->setVelocity(cp::Vect(velocity.x, velocity.y));
 }
