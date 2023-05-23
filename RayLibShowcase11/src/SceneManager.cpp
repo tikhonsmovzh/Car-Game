@@ -33,6 +33,8 @@ void SceneManager::LoadScene(int num) {
 
             loadedScene = i;
 
+            camera->target = {0, 0};
+
             scenes.at(i)->Load();
 
             return;
@@ -42,7 +44,9 @@ void SceneManager::LoadScene(int num) {
 
 SceneManager::SceneManager(Camera2D *camera2D, Vector2 *screen, std::vector<Scene*> sc) {
     camera = camera2D;
+
     Font TextFont {};// = LoadFont("../resources/found/technofosiano.ttf");
+
     this->TextFont = TextFont;
 
     if (TextFont.texture.id == 0) TextFont = GetFontDefault();
@@ -55,6 +59,8 @@ SceneManager::SceneManager(Camera2D *camera2D, Vector2 *screen, std::vector<Scen
     scenes.at(0)->Load();
 
     loadedScene = 0;
+
+    camera->target = {0, 0};
 }
 
 void SceneManager::StopGame() {isExit = true;}

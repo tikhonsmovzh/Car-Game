@@ -19,7 +19,15 @@ Car::Car(Vector2 pos, Vector2 scale, float wheelRotSpeed, int wheelDistance, flo
 
     carOrigin = {scale.x / 2, (float)axis};
 
-    rotation = -(std::atan2(position.x - checkpoints->at(1)->x, position.y - checkpoints->at(1)->y) * 180 / PI);
+    for(int i = 0; i < checkpoints->size(); i++){
+        Vector2 leg {checkpoints->at(i)->x - position.x,
+                     checkpoints->at(i)->y - position.y};
+
+        if(leg.x * leg.x + leg.y * leg.y > checkDist * checkDist) {
+            rotation = -(std::atan2(position.x - checkpoints->at(i)->x, position.y - checkpoints->at(i)->y) * 180 / PI);
+            break;
+        }
+    }
 }
 
 void Car::settings(Texture2D *texture) {
@@ -44,11 +52,8 @@ void Car::gas(float speedes) {
 
     float speeds = speedes;
 
-    if(isAsphaltTouch) {
+    if(isAsphaltTouch)
         speeds *= 1.6;
-    }
-
-    //float wheelRotation = wheelAngle * (speed / speeds) * sign(speed);
 
     rotation += wheelAngle * sign(speed);
 

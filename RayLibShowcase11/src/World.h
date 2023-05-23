@@ -37,7 +37,9 @@ class World : public Scene {
 
     std::thread *PhisThread;
 
-    bool isLoad = false, isWork = true;
+    Button *startButton, *restartButton;
+
+    bool isLoad = false, isWork = true, isPause = false;
 
 public:
     World(int);
