@@ -4,9 +4,10 @@
 
 #include "World.h"
 
-World::World(int num): Scene(num) {
+World::World(int num, int *flagChoose): Scene(num) {
     level = new std::vector<GameObject*>;
 
+    this->flagChoose = flagChoose;
     PhisThread = new std::thread([&](){
         while(isWork) {
             if(isLoad && !isPause) {
@@ -96,8 +97,8 @@ void World::Load() {
 
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road));
-    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road));
+    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road, *flagChoose));
+    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road, *flagChoose));
 
     isLoad = true;
 }

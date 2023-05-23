@@ -42,14 +42,17 @@ class World : public Scene {
 
     Button *startButton, *restartButton;
 
+    int *flagChoose;
+
     bool isLoad = false, isWork = true, isPause = false;
 
 public:
-    World(int);
+    World(int, int *);
     ~World();
 
     void update();
     void updateInterface();
+
 
     GameObject* FindName(std::string);
 

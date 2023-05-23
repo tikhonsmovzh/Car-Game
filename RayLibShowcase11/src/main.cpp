@@ -1,6 +1,7 @@
 #include "World.h"
 #include <raylib.h>
 #include "SceneManager.h"
+#include "SceneCharacterSelection.h"
 
 int main() {
     Vector2 screen{1500, 850};
@@ -10,9 +11,10 @@ int main() {
     InitWindow((int)screen.x, (int)screen.y, "game");
     SetTargetFPS(60);
     SetExitKey(KEY_TAB);
-
+    SceneCharacterSelection *s = new SceneCharacterSelection(0);
     SceneManager sceneManager(&camera, &screen, {
-        new World(0)
+        s,
+        new World(1, &s->flagCars)
     });
 
     while (!WindowShouldClose() && !sceneManager.update());

@@ -4,9 +4,15 @@
 
 #include "PlayerCar.h"
 
-PlayerCar::PlayerCar(Vector2 pos, std::vector<Vector2*> *road): Car(pos, {75, 150},
+PlayerCar::PlayerCar(Vector2 pos, std::vector<Vector2*> *road, int choosing): Car(pos, {75, 150},
                                        0.4, 35, 0.08, 75, 9, 4, road) {
-    static Texture2D texture2D = LoadTexture("../resources/texture/cars/car2.png");
+
+    static Texture2D texture2D;
+
+    if(choosing == 0)
+        texture2D = LoadTexture("../resources/texture/cars/car1.png");
+    else if(choosing == 1)
+        texture2D = LoadTexture("../resources/texture/cars/car2.png");
 
     settings(&texture2D);
 }
