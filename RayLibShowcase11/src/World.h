@@ -21,6 +21,9 @@
 #include "Asphalt.h"
 
 class World : public Scene {
+
+    std::vector<Car *> CarLevel;
+
     unsigned long long frameCount = 0;
 
     void DeleteObject(GameObject*);
@@ -39,14 +42,17 @@ class World : public Scene {
 
     Button *startButton, *restartButton, *BackButton;
 
+    int *flagChoose;
+
     bool isLoad = false, isWork = true, isPause = false;
 
 public:
-    World(int);
+    World(int, int *);
     ~World();
 
     void update();
     void updateInterface();
+
 
     GameObject* FindName(std::string);
 

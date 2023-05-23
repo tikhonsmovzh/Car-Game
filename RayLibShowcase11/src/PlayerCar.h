@@ -13,7 +13,7 @@ class PlayerCar: public Car {
     const int wheel = 3;
 
 public:
-    PlayerCar(Vector2, std::vector<Vector2*> *);
+    PlayerCar(Vector2, std::vector<Vector2*> *, int choosing);
 
     void update();
 

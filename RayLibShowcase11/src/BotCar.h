@@ -14,7 +14,7 @@ class BotCar: public Car {
     const int wheel = 3;
 
 public:
-    BotCar(Vector2, std::vector<Vector2*> *);
+    BotCar(Vector2, std::vector<Vector2*> *,int choosing);
 
     void update();
 };

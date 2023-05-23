@@ -4,15 +4,10 @@
 
 #include "World.h"
 
-//
-// Created by fools on 8/7/2021.
-//
-
-#include "World.h"
-
-World::World(int num): Scene(num) {
+World::World(int num, int *flagChoose): Scene(num) {
     level = new std::vector<GameObject*>;
 
+    this->flagChoose = flagChoose;
     PhisThread = new std::thread([&](){
         while(isWork) {
             if(isLoad && !isPause) {
@@ -67,6 +62,11 @@ void World::updateInterface() {
 
     if(isPause) {
         DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 90});
+      
+
+    
+     if(isPause) {
+        DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 110});
         DrawTextEx(TextFont, "Pause",{screen->x / 2 - 90, screen->y / 2 - 250}, 65, 3, BLACK);
 
         startButton->update();
@@ -87,6 +87,15 @@ void World::updateInterface() {
             return;
         }
     }
+    else
+    {
+        for(int i = 0; i < CarLevel.size(); i++){
+          if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
+            if(i = 0)   
+              DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
+     }
+    }
+      }
 }
 
 void World::Load() {
@@ -103,8 +112,8 @@ void World::Load() {
 
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road));
-    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road));
+    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road, *flagChoose));
+    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road, *flagChoose));
 
     isLoad = true;
 }
