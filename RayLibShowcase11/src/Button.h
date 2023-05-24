@@ -28,7 +28,7 @@ class Button {
 public:
     Button(Rectangle, std::string, Font, int = 40, Color = RED);
 
-    void update(Vector2 camera = {0, 0});
+    void update();
 
     bool isTouch = false;
 

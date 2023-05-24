@@ -21,7 +21,7 @@ class WorldGenerator{
     const int  minLen = 100;
 
     const Vector2 scale = {85, 150};
-    int len, side, oldSide, side2, countSide = 0, firstSide = 0;
+    int side, oldSide, side2, countSide = 0, firstSide = 0;
 
     bool boolFirst = false, boolEnd = false;
 
@@ -34,8 +34,12 @@ class WorldGenerator{
     void generate();
 
 public:
+
+    int len;
     std::vector<GameObject*> full_generate();
     ~WorldGenerator();
+
+    std::vector<Vector2 *> road;
 };
 
 

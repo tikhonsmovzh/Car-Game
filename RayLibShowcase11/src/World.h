@@ -12,13 +12,18 @@
 #include "GameObject.h"
 #include <iostream>
 #include <thread>
-
-#include "PlayerCar.h"
-#include "Barrier.h"
-#include "Asphalt.h"
+#include "Button.h"
 #include "WorldGenerator.h"
 
+#include "PlayerCar.h"
+#include "BotCar.h"
+#include "Barrier.h"
+#include "Asphalt.h"
+
 class World : public Scene {
+
+    std::vector<Car *> CarLevel;
+
     unsigned long long frameCount = 0;
 
     void DeleteObject(GameObject*);
@@ -35,12 +40,19 @@ class World : public Scene {
 
     std::thread *PhisThread;
 
-    bool isLoad = false;
+    Button *startButton, *restartButton, *BackButton;
+
+    int *flagChoose;
+
+    bool isLoad = false, isWork = true, isPause = false;
 
 public:
-    World(int);
+    World(int, int *);
+    ~World();
 
     void update();
+    void updateInterface();
+
 
     GameObject* FindName(std::string);
 
@@ -55,10 +67,6 @@ public:
     void Load();
 
     void UnLoad();
-
-    void SceneLoad();
-
-    bool isPause = false;
 };
 
 #endif //RAYLIBSHOWCASE_WORLD_H

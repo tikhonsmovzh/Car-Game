@@ -18,11 +18,6 @@ void Barrier::Shape(cp::Space *mSpace) {
                                                       cp::Vect(position.x, -position.y),
                                               });
 
-//    myShape->setFriction(1);
-//
-//    myBody->setPosition(cp::Vect(position.x, position.y));
-//
-//    mSpace->add(myBody);
     mSpace->add(myShape);
 }
 
