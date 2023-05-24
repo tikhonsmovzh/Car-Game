@@ -6,7 +6,6 @@
 
 PlayerCar::PlayerCar(Vector2 pos, std::vector<Vector2*> *road, int choosing): Car(pos, {75, 150},
                                        0.4, 35, 0.08, 75, 9, 4, road) {
-
     static Texture2D texture2D;
 
     if(choosing == 0)

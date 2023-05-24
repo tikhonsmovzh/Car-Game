@@ -14,8 +14,11 @@
 
 class SceneCharacterSelection: public Scene {
     Button *leftButton, *rightButton, *selectButton;
+
     std::vector <Texture2D> Cars;
+
     int maxFlag;
+
 public:
     int flagCars = 0;
     SceneCharacterSelection(int);

@@ -13,11 +13,12 @@ int main() {
     SetTargetFPS(60);
     SetExitKey(KEY_TAB);
   
-    SceneCharacterSelection *s = new SceneCharacterSelection(0);
+    SceneCharacterSelection *s = new SceneCharacterSelection(1);
   
     SceneManager sceneManager(&camera, &screen, {
+        new StartScene(0),
         s,
-        new World(1, &s->flagCars)
+        new World(2, &s->flagCars)
     });
 
     while (!WindowShouldClose() && !sceneManager.update());

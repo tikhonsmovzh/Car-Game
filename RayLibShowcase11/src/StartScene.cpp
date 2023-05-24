@@ -14,12 +14,17 @@ void StartScene::updateInterface() {
     ChoiceButton->update();
 
     if(StartButton->isTouch) {
-        sceneManager->LoadScene(1);
+        sceneManager->LoadScene(2);
         return;
     }
 
     if(ExitButton->isTouch){
         sceneManager->StopGame();
+        return;
+    }
+
+    if(ChoiceButton->isTouch) {
+        sceneManager->LoadScene(1);
         return;
     }
 }

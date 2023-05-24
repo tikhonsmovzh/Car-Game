@@ -122,11 +122,12 @@ void Car::updateCar() {
                  checkpoints->at(currentCheckpoint)->y - position.y};
 
     if(leg.x * leg.x + leg.y * leg.y < checkDist * checkDist) {
-        currentCheckpoint ++;
-        currentCheckpoint %= checkpoints->size();
-        std::cout << currentCheckpoint << "\n";
-        if(currentCheckpoint == checkpoints->size()-1){
+        currentCheckpoint++;
+
+        if(currentCheckpoint >= checkpoints->size()){
             passedCircle++;
+
+            currentCheckpoint = 0;
         }
     }
 

@@ -69,9 +69,6 @@ void WorldGenerator::reload() {
     boolFirst = false;
     len = 0;
 
-    static int count = 0;
-    std::cout << ++count << '\n';
-
     while (road.size() != 0) {
         delete road.at(road.size() - 1);
         road.pop_back();
@@ -81,8 +78,7 @@ void WorldGenerator::reload() {
     {
         for (int i = 0; i < scale.x; ++i) {
             for (int j = 0; j < scale.y; ++j)
-                //if(Matrix[i][j] != nullptr)
-                    delete Matrix[i][j];
+                delete Matrix[i][j];
         }
 
         for (int i = 0; i < scale.x; i++)

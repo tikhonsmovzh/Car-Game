@@ -5,7 +5,7 @@
 #include "BotCar.h"
 
 BotCar::BotCar(Vector2 pos, std::vector<Vector2*> *road, int choosing): Car(pos, {75, 150},
-                                                                       0.4, 42, 0.08, 75, 10, 4, road) {
+                                                                       0.4, 35, 0.08, 75, 9, 4, road) {
     static Texture2D texture2D;
 
     if(choosing == 1)
@@ -21,8 +21,6 @@ void BotCar::update() {
                                     position.x - checkpoints->at(currentCheckpoint)->x) * 180 / PI - 90;
 
     float difference = int(targetDegree - (float)rotation) % 360;
-
-    //std::cout << targetDegree << ' ' << difference << '\n';
 
     if(difference == 0)
         Rotation(0);

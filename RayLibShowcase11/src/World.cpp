@@ -61,11 +61,6 @@ void World::updateInterface() {
         level->at(i)->drawInterface(camera->target);
 
     if(isPause) {
-        DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 90});
-      
-
-    
-     if(isPause) {
         DrawRectangle(0, 0, screen->x, screen->y, {0, 0, 0, 110});
         DrawTextEx(TextFont, "Pause",{screen->x / 2 - 90, screen->y / 2 - 250}, 65, 3, BLACK);
 
@@ -90,12 +85,10 @@ void World::updateInterface() {
     else
     {
         for(int i = 0; i < CarLevel.size(); i++){
-          if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle){
-            if(i = 0)   
-              DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
-     }
+            if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle && i == 0)
+                DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
+        }
     }
-      }
 }
 
 void World::Load() {
