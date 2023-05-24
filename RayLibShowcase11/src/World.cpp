@@ -8,6 +8,7 @@ World::World(int num, int *flagChoose): Scene(num) {
     level = new std::vector<GameObject*>;
 
     this->flagChoose = flagChoose;
+
     PhisThread = new std::thread([&](){
         while(isWork) {
             if(isLoad && !isPause) {
@@ -49,8 +50,10 @@ void World::update() {
             level->at(i)->update();
     }
 
-    for(int i = 0; i < level->size(); i++)
-        level->at(i)->draw();
+    for(int i = 0; i < level->size(); i++) {
+        if(std::abs(level->at(i)->position.x - camera->target.x) + std::abs(level->at(i)->position.y - camera->target.y) < 1800)
+            level->at(i)->draw();
+    }
 
     if(IsKeyPressed(KEY_ESCAPE))
         isPause = !isPause;
@@ -117,6 +120,8 @@ GameObject* World::FindName(std::string name) {
         if(level->at(i)->name == name)
             return level->at(i);
     }
+
+    return nullptr;
 }
 
 GameObject* World::GetLetShape(std::shared_ptr<cp::Shape> Shape) {

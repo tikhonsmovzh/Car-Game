@@ -10,5 +10,5 @@ Grass::Grass(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Grass", DARKG
 }
 
 void Grass::draw() {
-    DrawTexturePro(texture2D, {0, 0, texture2D.width, texture2D.height}, {position.x, position.y, scale.x, scale.y}, {0, 0}, 0, WHITE);
+    DrawTexturePro(texture2D, {0, 0, (float)texture2D.width, (float)texture2D.height}, {position.x, position.y, scale.x, scale.y}, {0, 0}, 0, WHITE);
 }

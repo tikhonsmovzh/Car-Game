@@ -34,8 +34,8 @@ class WorldGenerator{
     void generate();
 
 public:
-
     int len;
+
     std::vector<GameObject*> full_generate();
     ~WorldGenerator();
 
