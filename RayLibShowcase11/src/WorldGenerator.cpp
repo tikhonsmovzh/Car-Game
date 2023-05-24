@@ -171,6 +171,17 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
         }
     }
 
+    for(int i = 0; i < scale.x; ++i){
+        for(int j = 0; j < scale.y; ++j){
+            if(Matrix[i][j] == nullptr) {
+                if(GetRandomValue(0, 4) == 0)
+                  Matrix[i][j] = new Tree({i*step+150, j*step+150});
+                else 
+                  Matrix[i][j] = new Grass({i*step+150, j*step+150});
+            }
+        }
+    }
+
     std::vector<GameObject*> world;
 
     for (int i = 0; i < scale.x; ++i) {
@@ -179,9 +190,6 @@ std::vector<GameObject*> WorldGenerator::full_generate() {
                 world.push_back(Matrix[i][j]);
         }
     }
-
-//    for(int i = 0; i  < world.size(); i++)
-//        std::cout << world[i]->position.x << ' ' << world[i]->position.y << '\n';
 
     return world;
 }

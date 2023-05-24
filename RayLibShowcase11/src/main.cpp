@@ -7,7 +7,7 @@
 int main() {
     Vector2 screen {1500, 850};
 
-    Camera2D camera{{screen.x / 2, screen.y / 2}, {0, 0}, 0, 1};
+    Camera2D camera {{screen.x / 2, screen.y / 2}, {0, 0}, 0, 1};
 
     InitWindow((int)screen.x, (int)screen.y, "Car game");
     SetTargetFPS(60);
