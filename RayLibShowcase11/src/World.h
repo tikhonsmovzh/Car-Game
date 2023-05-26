@@ -42,11 +42,13 @@ class World : public Scene {
 
     Button *startButton, *restartButton, *BackButton;
 
-    int *flagChoose;
+    int *flagChoose, numberLine = 0;
 
-    bool isLoad = false, isWork = true, isPause = false;
+    bool isLoad = false, isWork = true, isPause = false, isStop = false;
 
 public:
+    int countCircle = 0;
+
     World(int, int *);
     ~World();
 

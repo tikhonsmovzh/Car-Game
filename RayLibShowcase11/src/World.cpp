@@ -12,6 +12,10 @@ World::World(int num, int *flagChoose): Scene(num) {
     PhisThread = new std::thread([&](){
         while(isWork) {
             if(isLoad && !isPause) {
+                for(int i = 0; i < level->size(); i++)
+                    if(isLoad && !isPause)
+                        level->at(i)->updateThread();
+
                 for (int i = 0; i < level->size() - 1; i++) {
                     if (isLoad && !isPause && level->at(i)->myShape != nullptr) {
                         for (int j = i + 1; j < level->size(); j++) {
@@ -25,7 +29,7 @@ World::World(int num, int *flagChoose): Scene(num) {
                                 if (isLoad && !isPause && points.count > 0) {
                                     int saveSize = level->size();
 
-                                    level->at(i)->Touch(level->at(j), points);
+                                    level->at(j)->Touch(level->at(j), points);
 
                                     if (isLoad && !isPause && saveSize == level->size())
                                         level->at(j)->Touch(level->at(i), points);
@@ -40,7 +44,7 @@ World::World(int num, int *flagChoose): Scene(num) {
 }
 
 void World::update() {
-    if(!isPause) {
+    if(!isPause && isLoad) {
         frameCount++;
         frameCount %= UINT64_MAX;
 
@@ -51,7 +55,7 @@ void World::update() {
     }
 
     for(int i = 0; i < level->size(); i++) {
-        if(std::abs(level->at(i)->position.x - camera->target.x) + std::abs(level->at(i)->position.y - camera->target.y) < 1800)
+        if(std::abs(level->at(i)->position.x - camera->target.x) + std::abs(level->at(i)->position.y - camera->target.y) < 1900)
             level->at(i)->draw();
     }
 
@@ -85,17 +89,33 @@ void World::updateInterface() {
             return;
         }
     }
-    else
-    {
-        for(int i = 0; i < CarLevel.size(); i++){
-            if((int)(worldGenerator->road.size()/40) <= CarLevel[i]->passedCircle && i == 0)
-                DrawText("You win, lol!", camera->target.x, camera->target.y, 100, BLACK);
+    else {
+        if(isStop) {
+            DrawTextEx(TextFont, ("you: " + std::to_string(numberLine)).c_str(), {screen->x / 2 - 140, screen->y / 2 - 35}, 70, 3, BLACK);
+
+            if(IsKeyPressed(KEY_SPACE))
+                sceneManager->LoadScene(0);
+        }
+
+        for (int i = 0; i < CarLevel.size(); i++) {
+            if (countCircle <= CarLevel[i]->passedCircle) {
+                if(!isStop)
+                    numberLine++;
+
+                if (i == 0 && !isStop)
+                    isStop = true;
+
+                Destroy(CarLevel.at(i));
+                CarLevel.erase(CarLevel.begin() + i);
+            }
         }
     }
 }
 
 void World::Load() {
     isPause = false;
+    isStop = false;
+    numberLine = 0;
 
     mSpace = new cp::Space();
     mSpace->setGravity(cp::Vect(0, 0));
@@ -108,8 +128,16 @@ void World::Load() {
 
     LoadLevel(worldGenerator->full_generate());
 
-    SpawnObject(new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road, *flagChoose));
-    SpawnObject(new BotCar(*worldGenerator->road.at(0), &worldGenerator->road, *flagChoose));
+    countCircle = (int)(worldGenerator->road.size()/40);
+
+    Car *playerCar = new PlayerCar(*worldGenerator->road.at(worldGenerator->road.size() - 1), &worldGenerator->road, *flagChoose),
+    *botCar1 = new BotCar(*worldGenerator->road.at(0), &worldGenerator->road);
+
+    SpawnObject(playerCar);
+    SpawnObject(botCar1);
+
+    CarLevel.push_back(playerCar);
+    CarLevel.push_back(botCar1);
 
     isLoad = true;
 }
@@ -186,6 +214,9 @@ void World::UnLoad() {
         DeleteObject(level->at(0));
         level->erase(level->begin());
     }
+
+    while(CarLevel.size() != 0)
+        CarLevel.pop_back();
 
     delete startButton;
     delete restartButton;

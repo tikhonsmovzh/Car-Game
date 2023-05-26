@@ -13,7 +13,7 @@ int main() {
     SetTargetFPS(60);
     SetExitKey(KEY_TAB);
   
-    SceneCharacterSelection *s = new SceneCharacterSelection(1);
+    auto *s = new SceneCharacterSelection(1);
   
     SceneManager sceneManager(&camera, &screen, {
         new StartScene(0),

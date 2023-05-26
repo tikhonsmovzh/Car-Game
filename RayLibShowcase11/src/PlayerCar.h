@@ -7,8 +7,10 @@
 
 #include "Car.h"
 
+class World;
+
 class PlayerCar: public Car {
-    const float maxSpeed = 8;
+    const float maxSpeed = 13;
 
     const int wheel = 3;
 
@@ -20,6 +22,8 @@ public:
     void Start();
 
     void draw();
+
+    void drawInterface(Vector2);
 };
 
 

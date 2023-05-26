@@ -53,8 +53,8 @@ void Car::gas(float speedes) {
 
     float speeds = speedes;
 
-    if(isAsphaltTouch)
-        speeds *= 1.6;
+    /*if(isAsphaltTouch)
+        speeds *= 1.6;*/
 
     rotation += wheelAngle * sign(speed);
 
@@ -136,7 +136,6 @@ void Car::updateCar() {
     position = {(float)savePos.x, -(float)savePos.y};
 
     isGas = false;
-    isAsphaltTouch = false;
 }
 
 void Car::Shape(cp::Space *mSpace) {
@@ -161,10 +160,11 @@ void Car::Shape(cp::Space *mSpace) {
     cpBodySetAngle(*myBody, (-rotation + 180) / 180.0 * PI);
 }
 
-void Car::Touch(GameObject *object, cpContactPointSet points) {
-    if(object->name == "Asphalt")
+/*void Car::Touch(GameObject *object, cpContactPointSet points) {
+    if(object->name == "Asphalt") {
         isAsphaltTouch = true;
-}
+    }
+}*/
 
 void Car::draw() {drawCar();}
 void Car::update() {updateCar();}

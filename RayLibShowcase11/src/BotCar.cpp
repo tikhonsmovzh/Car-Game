@@ -4,9 +4,11 @@
 
 #include "BotCar.h"
 
-BotCar::BotCar(Vector2 pos, std::vector<Vector2*> *road, int choosing): Car(pos, {75, 150},
-                                                                       0.4, 35, 0.08, 75, 9, 4, road) {
+BotCar::BotCar(Vector2 pos, std::vector<Vector2*> *road): Car(pos, {75, 150},
+                                                                       0.4, 35, 0.08, 75, 9, 6, road) {
     static Texture2D texture2D;
+
+    int choosing = GetRandomValue(0, 1);
 
     if(choosing == 1)
         texture2D = LoadTexture("../resources/texture/cars/car1.png");

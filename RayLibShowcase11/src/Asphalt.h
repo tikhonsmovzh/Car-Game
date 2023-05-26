@@ -9,8 +9,10 @@
 #include <chipmunk.hpp>
 
 class Asphalt: public GameObject {
+    Texture2D *texture2D;
+
 public:
-    Asphalt(Vector2);
+    Asphalt(Vector2, Texture2D * = nullptr);
 
     void Shape(cp::Space*);
 

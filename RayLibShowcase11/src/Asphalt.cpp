@@ -4,7 +4,9 @@
 
 #include "Asphalt.h"
 
-Asphalt::Asphalt(Vector2 pos): GameObject({pos.x, pos.y}, {300, 300}, "Asphalt", GRAY) {}
+Asphalt::Asphalt(Vector2 pos, Texture2D *texture): GameObject({pos.x, pos.y}, {300, 300}, "Asphalt", GRAY) {
+    texture2D = texture;
+}
 
 void Asphalt::Shape(cp::Space *mSpace) {
     myBody = std::make_shared<cp::Body>(0.01, 0.01);
@@ -21,5 +23,8 @@ void Asphalt::Shape(cp::Space *mSpace) {
 }
 
 void Asphalt::draw() {
-    DrawRectangleV(position, scale, color);
+    if(texture2D == nullptr)
+        DrawRectangleV(position, scale, color);
+    else
+        DrawTexturePro(*texture2D, {0, 0, scale.x, scale.y}, {position.x, position.y, scale.x, scale.y}, {0,0}, 0, WHITE);
 }

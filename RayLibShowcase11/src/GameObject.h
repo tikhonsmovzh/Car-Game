@@ -49,6 +49,8 @@ public:
     virtual void draw(){}
     virtual void drawInterface(Vector2){}
 
+    virtual void updateThread(){}
+
     virtual void destroy(){}
 
     virtual void Touch(GameObject *, cpContactPointSet){}

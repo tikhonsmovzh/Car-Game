@@ -59,7 +59,7 @@ public:
 
     void Shape(cp::Space *);
 
-    void Touch(GameObject *, cpContactPointSet);
+    //void Touch(GameObject *, cpContactPointSet);
     int passedCircle = 0;
 };
 

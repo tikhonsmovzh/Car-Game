@@ -9,12 +9,12 @@
 #include "Car.h"
 
 class BotCar: public Car {
-    const float maxSpeed = 8;
+    const float maxSpeed = 11;
 
     const int wheel = 3;
 
 public:
-    BotCar(Vector2, std::vector<Vector2*> *,int choosing);
+    BotCar(Vector2, std::vector<Vector2*> *);
 
     void update();
 };

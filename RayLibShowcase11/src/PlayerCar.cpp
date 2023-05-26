@@ -3,9 +3,10 @@
 //
 
 #include "PlayerCar.h"
+#include "World.h"
 
 PlayerCar::PlayerCar(Vector2 pos, std::vector<Vector2*> *road, int choosing): Car(pos, {75, 150},
-                                       0.4, 35, 0.08, 75, 9, 4, road) {
+                                       0.4, 35, 0.08, 75, 9, 6, road) {
     static Texture2D texture2D;
 
     if(choosing == 0)
@@ -46,5 +47,9 @@ void PlayerCar::draw() {
     DrawRectangleV({checkpoints->at(currentCheckpoint)->x - 25,
                     checkpoints->at(currentCheckpoint)->y - 25},
                    {50, 50}, BLACK);
+}
 
+void PlayerCar::drawInterface(Vector2) {
+    if(world->countCircle - passedCircle != 0)
+        DrawTextEx(textFont, ("remaining circles: " + std::to_string(world->countCircle - passedCircle)).c_str(), {500, 10}, 60, 3, BLACK);
 }
