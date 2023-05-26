@@ -10,7 +10,7 @@
 class World;
 
 class PlayerCar: public Car {
-    const float maxSpeed = 13;
+    const float maxSpeed = 11;
 
     const int wheel = 3;
 
